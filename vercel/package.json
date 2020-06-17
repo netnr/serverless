@@ -1,0 +1,31 @@
+{
+  "name": "netnr-vercel-serverless",
+  "description": "This directory is a brief example of using a Custom Build script that can be deployed with Vercel and zero configuration.",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "netnr",
+  "license": "MIT",
+  "dependencies": {
+    "mssql": "^6.2.0",
+    "mysql": "^2.18.1",
+    "oracledb": "^4.2.0",
+    "pg": "^8.2.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/netnr/serverless.git"
+  },
+  "keywords": [
+    "netnr",
+    "vercel",
+    "serverless",
+    "api"
+  ],
+  "bugs": {
+    "url": "https://github.com/netnr/serverless/issues"
+  },
+  "homepage": "https://github.com/netnr/serverless#readme"
+}

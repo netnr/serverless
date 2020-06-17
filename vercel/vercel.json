@@ -1,0 +1,58 @@
+{
+  "version": 2,
+  "routes": [
+    {
+      "src": "/(.*)",
+      "headers": {
+        "Access-Control-Allow-Origin": "*",
+        "Access-Control-Allow-Methods": "GET, POST, PUT, DELETE, OPTIONS",
+        "Access-Control-Allow-Headers": "Accept, Authorization, Cache-Control, Content-Type, DNT, If-Modified-Since, Keep-Alive, Origin, User-Agent, X-Requested-With, Token, x-access-token"
+      },
+      "continue": true
+    },
+
+    {
+      "src": "/clock",
+      "dest": "/api/clock.js",
+      "continue": true
+    },
+    {
+      "src": "/clock/(.*)",
+      "dest": "/api/clock.js",
+      "continue": true
+    },
+    {
+      "src": "/ip",
+      "dest": "/api/ip.js",
+      "continue": true
+    },
+    {
+      "src": "/svg",
+      "headers": { "Content-Type": "image/svg+xml" },
+      "dest": "/api/svg.js",
+      "continue": true
+    },
+    {
+      "src": "/svg/(.*)",
+      "headers": { "Content-Type": "image/svg+xml" },
+      "dest": "/api/svg.js",
+      "continue": true
+    },
+
+    {
+      "src": "/swagger",
+      "dest": "/index.html",
+      "continue": true
+    },
+    {
+      "src": "/DK/(.*)",
+      "dest": "/api/dk.js",
+      "continue": true
+    },
+    {
+      "src": "/dk/(.*)",
+      "dest": "/api/dk.js",
+      "continue": true
+    }
+  ]
+}
