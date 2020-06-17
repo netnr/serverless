@@ -157,6 +157,7 @@ module.exports = (req, res) => {
             return ops;
         },
 
+        //数据库
         db: {
 
             MySQL: {
@@ -220,10 +221,10 @@ module.exports = (req, res) => {
                     FROM
                         information_schema.tables
                     WHERE
-                        table_schema = '@DataBaseName@' 
+                        table_schema = '{dataBaseName}' 
                     ORDER BY table_name
-                 `;
-                    cmd = cmd.replace("@DataBaseName@", dk.connectionOptions().database)
+                    `;
+                    cmd = cmd.replace("{dataBaseName}", dk.connectionOptions().database)
 
                     return this.Query(dk, cmd);
                 },
@@ -278,20 +279,20 @@ module.exports = (req, res) => {
                         LEFT JOIN information_schema.tables T ON C.table_schema = T.table_schema
                         AND C.table_name = T.table_name
                     WHERE
-                        T.table_schema = '@DataBaseName@'
-                        AND 1 = 1 @SqlWhere@
+                        T.table_schema = '{dataBaseName}'
+                        AND 1 = 1 {sqlWhere}
                     ORDER BY
                         T.table_name,
                         C.ordinal_position
-                 `;
-                    cmd = cmd.replace("@DataBaseName@", dk.connectionOptions().database)
+                    `;
+                    cmd = cmd.replace("{dataBaseName}", dk.connectionOptions().database)
 
                     var whereSql = "";
                     var tns = dk.pars.filterTableName;
                     if (!dk.isNullOrWhiteSpace(tns)) {
                         whereSql = "AND T.table_name in ('" + tns.replace("'", "").split(',').join("','") + "')";
                     }
-                    cmd = cmd.replace("@SqlWhere@", whereSql);
+                    cmd = cmd.replace("{sqlWhere}", whereSql);
 
                     return this.Query(dk, cmd);
                 },
@@ -302,9 +303,9 @@ module.exports = (req, res) => {
                  */
                 SetTableComment: function (dk) {
 
-                    var cmd = "ALTER TABLE `@DataTableName@` COMMENT '@Comment@'";
+                    var cmd = "ALTER TABLE `{dataTableName}` COMMENT '{comment}'";
 
-                    cmd = cmd.replace("@DataTableName@", dk.pars.TableName.replace("'", "")).replace("@Comment@", dk.pars.TableComment.replace("'", "''"));
+                    cmd = cmd.replace("{dataTableName}", dk.pars.TableName.replace("'", "")).replace("{comment}", dk.pars.TableComment.replace("'", "''"));
 
                     return this.Query(dk, cmd);
                 },
@@ -314,9 +315,9 @@ module.exports = (req, res) => {
                  * @param {any} dk
                  */
                 SetColumnComment: function (dk) {
-                    var cmd = "ALTER TABLE `@DataTableName@` MODIFY COLUMN `@DataColumnName@` INT COMMENT '@Comment@'"
+                    var cmd = "ALTER TABLE `{dataTableName}` MODIFY COLUMN `{dataColumnName}` INT COMMENT '{comment}'"
 
-                    cmd = cmd.replace("@DataTableName@", dk.pars.TableName.replace("'", "")).replace("@DataColumnName@", dk.pars.FieldName.replace("'", "")).replace("@Comment@", dk.pars.FieldComment.replace("'", "''"));
+                    cmd = cmd.replace("{dataTableName}", dk.pars.TableName.replace("'", "")).replace("{dataColumnName}", dk.pars.FieldName.replace("'", "")).replace("{comment}", dk.pars.FieldComment.replace("'", "''"));
 
                     return this.Query(dk, cmd);
                 },
@@ -476,7 +477,7 @@ module.exports = (req, res) => {
                         ) PK ON PK.TABLE_NAME = A.TABLE_NAME
                         AND C.COLUMN_NAME = PK.COLUMN_NAME
                     WHERE
-                        1 = 1 @SqlWhere@ 
+                        1 = 1 {sqlWhere}
                     ORDER BY
                         A.TABLE_NAME,
                         C.COLUMN_ID
@@ -487,7 +488,7 @@ module.exports = (req, res) => {
                     if (!dk.isNullOrWhiteSpace(tns)) {
                         whereSql = "AND A.TABLE_NAME in ('" + tns.replace("'", "").split(',').join("','") + "')";
                     }
-                    cmd = cmd.replace("@SqlWhere@", whereSql);
+                    cmd = cmd.replace("{sqlWhere}", whereSql);
 
                     return this.Query(dk, cmd);
                 },
@@ -498,9 +499,9 @@ module.exports = (req, res) => {
                  */
                 SetTableComment: function (dk) {
 
-                    var cmd = `comment on table "@DataTableName@" is '@Comment@'`;
+                    var cmd = `comment on table "{dataTableName}" is '{comment}'`;
 
-                    cmd = cmd.replace("@DataTableName@", dk.pars.TableName.replace("'", "")).replace("@Comment@", dk.pars.TableComment.replace("'", "''"));
+                    cmd = cmd.replace("{dataTableName}", dk.pars.TableName.replace("'", "")).replace("{comment}", dk.pars.TableComment.replace("'", "''"));
 
                     return this.Query(dk, cmd);
                 },
@@ -511,9 +512,9 @@ module.exports = (req, res) => {
                  */
                 SetColumnComment: function (dk) {
 
-                    var cmd = `comment on column "@DataTableName@"."@DataColumnName@" is '@Comment@'`;
+                    var cmd = `comment on column "{dataTableName}"."{dataColumnName}" is '{comment}'`;
 
-                    cmd = cmd.replace("@DataTableName@", dk.pars.TableName.replace("'", "")).replace("@DataColumnName@", dk.pars.FieldName.replace("'", "")).replace("@Comment@", dk.pars.FieldComment.replace("'", "''"));
+                    cmd = cmd.replace("{dataTableName}", dk.pars.TableName.replace("'", "")).replace("{dataColumnName}", dk.pars.FieldName.replace("'", "")).replace("{comment}", dk.pars.FieldComment.replace("'", "''"));
 
                     return this.Query(dk, cmd);
                 },
@@ -732,7 +733,7 @@ module.exports = (req, res) => {
                             AND relname NOT LIKE 'pg_%'
                             AND relname NOT LIKE 'sql_%'
                         )
-                        AND A.attnum > 0 @SqlWhere@
+                        AND A.attnum > 0 {sqlWhere}
                     ORDER BY
                         C.relname,
                         A.attnum
@@ -743,7 +744,7 @@ module.exports = (req, res) => {
                     if (!dk.isNullOrWhiteSpace(tns)) {
                         whereSql = "AND C.relname IN ('" + tns.replace("'", "").split(',').join("','") + "')";
                     }
-                    cmd = cmd.replace("@SqlWhere@", whereSql);
+                    cmd = cmd.replace("{sqlWhere}", whereSql);
 
                     return this.Query(dk, cmd);
                 },
@@ -754,9 +755,9 @@ module.exports = (req, res) => {
                  */
                 SetTableComment: function (dk) {
 
-                    var cmd = `COMMENT ON TABLE "@DataTableName@" IS '@Comment@'`;
+                    var cmd = `COMMENT ON TABLE "{dataTableName}" IS '{comment}'`;
 
-                    cmd = cmd.replace("@DataTableName@", dk.pars.TableName.replace("'", "")).replace("@Comment@", dk.pars.TableComment.replace("'", "''"));
+                    cmd = cmd.replace("{dataTableName}", dk.pars.TableName.replace("'", "")).replace("{comment}", dk.pars.TableComment.replace("'", "''"));
 
                     return this.Query(dk, cmd);
                 },
@@ -767,9 +768,9 @@ module.exports = (req, res) => {
                  */
                 SetColumnComment: function (dk) {
 
-                    var cmd = `COMMENT ON COLUMN "@DataTableName@"."@DataColumnName@" IS '@Comment@'`;
+                    var cmd = `COMMENT ON COLUMN "{dataTableName}"."{dataColumnName}" IS '{comment}'`;
 
-                    cmd = cmd.replace("@DataTableName@", dk.pars.TableName.replace("'", "")).replace("@DataColumnName@", dk.pars.FieldName.replace("'", "")).replace("@Comment@", dk.pars.FieldComment.replace("'", "''"));
+                    cmd = cmd.replace("{dataTableName}", dk.pars.TableName.replace("'", "")).replace("{dataColumnName}", dk.pars.FieldName.replace("'", "")).replace("{comment}", dk.pars.FieldComment.replace("'", "''"));
 
                     return this.Query(dk, cmd);
                 },
@@ -945,7 +946,7 @@ module.exports = (req, res) => {
                         LEFT JOIN sys.identity_columns i
                             ON i.[object_id] = OBJECT_ID(d.name)
                                 AND i.name = a.name
-                    WHERE 1 = 1 @SqlWhere@
+                    WHERE 1 = 1 {sqlWhere}
                     ORDER BY d.name,
                                 a.colorder;
                  `;
@@ -955,7 +956,7 @@ module.exports = (req, res) => {
                     if (!dk.isNullOrWhiteSpace(tns)) {
                         whereSql = "AND d.name in ('" + tns.replace("'", "").split(',').join("','") + "')";
                     }
-                    cmd = cmd.replace("@SqlWhere@", whereSql);
+                    cmd = cmd.replace("{sqlWhere}", whereSql);
 
                     return this.Query(dk, cmd);
                 },
@@ -1100,14 +1101,14 @@ module.exports = (req, res) => {
                 useTime: null
             };
 
-            dk.pars = req.method == "POST" ? req.body : req.query;
-            var tdb = dk.typeDB[Number(dk.pars.tdb)];
+            try {
+                dk.pars = req.method == "POST" ? req.body : req.query;
+                var tdb = dk.typeDB[Number(dk.pars.tdb)];
 
-            //方法名
-            var iname = req.url.split('?')[0].split('/')[2];
-            var dfn = dk.db[tdb][iname];
-            if (typeof dnf == "function") {
-                dfn(dk).then(ret => {
+                //方法名
+                var iname = req.url.split('?')[0].split('/')[2];
+
+                dk.db[tdb][iname](dk).then(ret => {
 
                     vm.code = 200;
                     vm.msg = "success";
@@ -1117,17 +1118,10 @@ module.exports = (req, res) => {
 
                     //输出结果
                     res.json(vm);
-                }).catch(err => {
-                    vm.code = -1;
-                    vm.msg = JSON.stringify(err);
-
-                    //输出结果
-                    res.json(vm);
                 })
-            } else {
-
-                vm.code = 1;
-                vm.msg = "无效请求";
+            } catch (e) {
+                vm.code = -1;
+                vm.msg = e
 
                 //输出结果
                 res.json(vm);
