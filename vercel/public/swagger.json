@@ -1,7 +1,7 @@
 {
   "openapi": "3.0.1",
   "info": {
-    "title": "Netnr.DataKit API",
+    "title": "API",
     "version": "v1"
   },
   "paths": {
@@ -879,6 +879,10 @@
     }
   },
   "tags": [
+    {
+      "name": "Common",
+      "description": "常用"
+    },
     {
       "name": "DK",
       "description": "Netnr.DataKit API"
