@@ -1,3 +1,13 @@
+const fs = require("fs");
+const md5 = require('md5');
+const path = require("path");
+const request = require("request");
+const mysql = require('mysql');
+const sqlite3 = require('sqlite3').verbose();
+const oracledb = require('oracledb');
+const sql = require('mssql');
+const pgclient = require('pg').Client;
+
 module.exports = (req, res) => {
 
     var dk = {
@@ -101,6 +111,64 @@ module.exports = (req, res) => {
                                 }
                             }
                             break;
+                        case "SQLite":
+                            {
+                                return new Promise(function (resolve, reject) {
+
+                                    //下载 SQLite 文件
+                                    var ds = dk.trimEnd(conn.substring(12), ';');
+                                    //路径
+                                    var dspath = path.join(__dirname, '../') + "tmp/";
+                                    //总天数
+                                    var totalday = Math.floor(new Date().valueOf() / 1000 / 3600 / 24);
+                                    //文件名
+                                    var dsname = totalday + "_" + md5(ds) + ".db";
+
+                                    //网络路径
+                                    if (ds.toLowerCase().indexOf("http") == 0) {
+                                        dk.file.exists(dspath + dsname).then(x => {
+                                            //不存在则下载
+                                            if (x == false) {
+                                                //删除今天前的文件
+                                                dk.file.readdir(dspath).then(data => {
+                                                    data.forEach(f => {
+                                                        var day = f.split('_')[0] * 1;
+                                                        if (day > 10000 && day < totalday) {
+                                                            dk.file.delete(dspath + f);
+                                                        }
+                                                    })
+                                                })
+
+                                                //下载
+                                                dk.file.down(ds, dspath, dsname).then(() => {
+                                                    resolve({
+                                                        filename: dspath + dsname,
+                                                        database: dsname.split('.')[0]
+                                                    });
+                                                })
+                                            } else {
+                                                resolve({
+                                                    filename: dspath + dsname,
+                                                    database: dsname.split('.')[0]
+                                                });
+                                            }
+                                        })
+                                    } else {
+                                        //本地物理路径
+                                        dk.file.exists(ds).then(x => {
+                                            if (x) {
+                                                resolve({
+                                                    filename: ds,
+                                                    database: dsname.split('.')[0]
+                                                });
+                                            } else {
+                                                reject({});
+                                            }
+                                        })
+                                    }
+                                })
+                            }
+                            break;
                         case "Oracle":
                             {
                                 var host = matchEngine.result(["(Host)"]);
@@ -170,7 +238,6 @@ module.exports = (req, res) => {
                 Query: function (dk, cmd) {
 
                     var config = dk.connectionOptions();
-                    var mysql = require('mysql');
 
                     var connection = mysql.createConnection(config);
 
@@ -363,6 +430,257 @@ module.exports = (req, res) => {
                 }
             },
 
+            SQLite: {
+
+                /**
+                 * 查询
+                 * @param {any} dk
+                 * @param {any} cmd
+                 */
+                Query: function (dk, cmd) {
+
+                    return dk.connectionOptions().then(config => {
+                        var db = new sqlite3.Database(config.filename);
+
+                        return new Promise(function (resolve, reject) {
+                            db.serialize(function () {
+                                let rows = [];
+                                db.each(cmd, function (err, row) {
+                                    if (err) {
+                                        reject(err);
+                                    } else {
+                                        rows.push(row);
+                                    }
+                                }, function () {
+                                    resolve(rows);
+                                });
+                            });
+
+                            db.close();
+                        })
+                    })
+                },
+
+                /**
+                 * 查询 多个
+                 * @param {any} dk
+                 * @param {any} cmds SQL脚本数组
+                 */
+                Querys: function (dk, cmds) {
+
+                    var that = this;
+                    var plist = [];
+                    cmds.forEach(c => {
+                        plist.push(that.Query(dk, c))
+                    })
+
+                    return Promise.all(plist).then(rets => {
+                        return rets;
+                    })
+                },
+
+                /**
+                 * 查询 数据
+                 * @param {any} dk
+                 * @param {any} cmds SQL脚本数组
+                 */
+                QueryData: function (dk, cmds) {
+
+                    return this.Querys(dk, cmds).then(rets => {
+                        return {
+                            data: rets[0],
+                            total: rets[1][0]["total"]
+                        }
+                    })
+                },
+
+                /**
+                 * 获取所有表名及注释
+                 * @param {any} dk
+                 */
+                GetTable: function (dk) {
+
+                    var cmd = `
+                    SELECT
+                        tbl_name AS TableName,
+                        '' AS TableComment
+                    FROM
+                        sqlite_master
+                    WHERE
+                        type = 'table'
+                    ORDER BY tbl_name
+                     `;
+
+                    return this.Query(dk, cmd);
+                },
+
+                /**
+                 * 获取所有列
+                 * @param {any} dk
+                 */
+                GetColumn: function (dk) {
+
+                    var cmd = `PRAGMA table_info('@DataTableName@')`;
+
+                    var that = this;
+
+                    let gt = function () {
+                        return new Promise(function (resolve, reject) {
+                            var tns = dk.pars.filterTableName;
+                            if (dk.isNullOrWhiteSpace(tns)) {
+                                that.GetTable(dk).then(ret => {
+                                    resolve(ret.map(x => x.TableName));
+                                }).catch(err => {
+                                    reject(err);
+                                })
+                            }
+                            else {
+                                tns = tns.split(',').map(x => x.replace("'", ""));
+                                resolve(tns);
+                            }
+                        });
+                    }
+
+                    return gt().then(tns => {
+                        var cmds = [];
+                        tns.forEach(tn => {
+                            cmds.push(cmd.replace("@DataTableName@", tn));
+                        })
+
+                        //自增信息
+                        var aasql = "SELECT name, sql from SQLITE_MASTER WHERE 1=1";
+                        if (tns.length > 0) {
+                            aasql += " AND name IN('" + tns.join("','") + "')";
+                        }
+                        cmds.push(aasql);
+
+                        return that.Querys(dk, cmds);
+                    }).then(ds => {
+                        var listColumn = [];
+                        var aadt = ds[ds.length - 1];
+
+                        for (var i = 0; i < aadt.length; i++) {
+                            var dt = ds[i];
+                            var tableName = aadt[i].name;
+
+                            //表创建SQL （分析该SQL语句获取自增列信息）
+                            var aacreate = aadt.filter(x => x["name"] == tableName)[0]["sql"];
+                            var aasi = aacreate.indexOf('(');
+                            var aaei = aacreate.lastIndexOf(')');
+                            aacreate = aacreate.substring(aasi, aaei - aasi);
+                            //有自增
+                            var hasaa = aacreate.toUpperCase().indexOf("AUTOINCREMENT") >= 0;
+
+                            var ti = 1;
+                            dt.forEach(dr => {
+                                var colmo = {
+                                    TableName: tableName,
+                                    TableComment: "",
+                                    FieldName: dr["name"],
+                                    DataTypeLength: dr["type"],
+                                    FieldOrder: ti++,
+                                    PrimaryKey: dr["pk"] == "1" ? "YES" : "",
+                                    NotNull: dr["notnull"] == "1" ? "YES" : "",
+                                    DefaultValue: dr["dflt_value"],
+                                    FieldComment: ""
+                                };
+
+                                if (colmo.DataTypeLength.indexOf("(") >= 0) {
+                                    var tlarr = dk.trimEnd(colmo.DataTypeLength, ')').split('(');
+                                    colmo.DataType = tlarr[0];
+                                    colmo.DataLength = tlarr[1];
+                                }
+                                else {
+                                    colmo.DataType = colmo.DataTypeLength;
+                                }
+
+                                if (hasaa) {
+                                    var aais = aacreate.toUpperCase().split(',').filter(x => x.indexOf("AUTOINCREMENT") >= 0 && x.indexOf(colmo.FieldName.toUpperCase()) >= 0).length > 0;
+                                    colmo.AutoAdd = aais ? "YES" : "";
+                                }
+                                else {
+                                    colmo.AutoAdd = "";
+                                }
+
+                                listColumn.push(colmo);
+                            })
+                        }
+
+                        return listColumn;
+                    })
+                },
+
+                /**
+                 * 设置表注释
+                 * @param {any} dk
+                 */
+                SetTableComment: function (dk) {
+                    return new Promise(function (resolve, reject) {
+                        if (dk) {
+                            resolve(null);
+                        } else {
+                            reject(null);
+                        }
+                    })
+                },
+
+                /**
+                 * 设置列注释
+                 * @param {any} dk
+                 */
+                SetColumnComment: function (dk) {
+                    return new Promise(function (resolve, reject) {
+                        if (dk) {
+                            resolve(null);
+                        } else {
+                            reject(null);
+                        }
+                    })
+                },
+
+                /**
+                 * 查询数据
+                 * @param {any} dk
+                 */
+                GetData: function (dk) {
+
+                    var listFieldName = dk.pars.listFieldName;
+                    if (dk.isNullOrWhiteSpace(listFieldName)) {
+                        listFieldName = "*";
+                    }
+
+                    var whereSql = dk.pars.whereSql;
+                    if (dk.isNullOrWhiteSpace(whereSql)) {
+                        whereSql = "";
+                    }
+                    else {
+                        whereSql = "WHERE " + whereSql;
+                    }
+
+                    var TableName = dk.pars.TableName;
+                    var sort = dk.pars.sort;
+                    var order = ((dk.pars.order || "") + "").toLowerCase() == "desc" ? "desc" : "asc";
+                    var rows = Number(dk.pars.rows) || 30;
+                    var page = Number(dk.pars.page) || 1;
+
+                    var cmd = `
+                    SELECT
+                        ` + listFieldName + `
+                    FROM
+                        ` + TableName + ` ` + whereSql + `
+                    ORDER BY
+                        ` + sort + ` ` + order + `
+                    LIMIT
+                        ` + rows + ` OFFSET ` + (page - 1) * rows;
+
+                    var cmds = [];
+                    cmds.push(cmd);
+                    cmds.push(`select count(1) as total from ` + TableName + ` ` + whereSql);
+
+                    return this.QueryData(dk, cmds);
+                }
+            },
+
             Oracle: {
 
                 /**
@@ -375,7 +693,6 @@ module.exports = (req, res) => {
                     process.env.ORA_SDTZ = 'UTC';
 
                     var config = dk.connectionOptions();
-                    const oracledb = require('oracledb');
 
                     return oracledb.getConnection(config).then(connection => {
                         return connection.execute(cmd, {}, {
@@ -402,7 +719,6 @@ module.exports = (req, res) => {
                     })
 
                     return Promise.all(plist).then(rets => {
-                        console.log(rets[1]);
                         return {
                             data: rets[0],
                             total: rets[1][0]["total"]
@@ -580,8 +896,7 @@ module.exports = (req, res) => {
                 Query: function (dk, cmd) {
 
                     var config = dk.connectionOptions();
-                    const { Client } = require('pg');
-                    var client = new Client(config);
+                    var client = new pgclient(config);
 
                     client.connect()
 
@@ -830,7 +1145,6 @@ module.exports = (req, res) => {
 
                     var config = dk.connectionOptions();
 
-                    var sql = require('mssql');
                     return sql.connect(config).then(pool => {
                         return pool.request().query(cmd).then(ret => {
                             return ret.recordset
@@ -874,7 +1188,7 @@ module.exports = (req, res) => {
                         sys.TABLES a
                         left join sys.extended_properties b ON b.major_id = a.object_id AND b.minor_id = 0
                     ORDER BY a.name
-                 `;
+                     `;
 
                     return this.Query(dk, cmd);
                 },
@@ -1035,7 +1349,7 @@ module.exports = (req, res) => {
                                                     @level2name = N'{dataColumnName}'`;
 
                     cmd = cmd.replace(/{dataTableName}/g, dk.pars.TableName.replace("'", "")).replace(/{dataColumnName}/g, dk.pars.FieldName.replace("'", "")).replace(/{comment}/g, dk.pars.FieldComment.replace("'", "''"));
-                    console.log(cmd);
+
                     return this.Query(dk, cmd);
                 },
 
@@ -1088,6 +1402,86 @@ module.exports = (req, res) => {
             }
         },
 
+        //文件
+        file: {
+
+            /**
+             * 下载
+             * @param {any} url 下载文件链接地址
+             * @param {any} dirPath 保存路径
+             * @param {any} fileName 保存文件名
+             */
+            down: function (url, dirPath, fileName) {
+
+                return new Promise(function (resolve, reject) {
+                    //创建临时文件夹
+                    if (!fs.existsSync(dirPath)) {
+                        fs.mkdirSync(dirPath);
+                    }
+                    dk.trimEnd(dk.trimEnd(dirPath, '/'), '\\');
+
+                    let stream = fs.createWriteStream(dirPath + '/' + fileName);
+                    request(url).pipe(stream).on("close", function (err) {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(true)
+                        }
+                    });
+                })
+            },
+
+            /**
+             * 读取目录（下一级文件、文件夹）
+             * @param {any} dirpath 目录路径
+             */
+            readdir: function (dir) {
+                return new Promise(function (resolve, reject) {
+                    fs.readdir(dir, function (err, data) {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(data)
+                        }
+                    })
+                })
+            },
+
+            /**
+             * 删除文件
+             * @param {any} fullpath 文件路径
+             */
+            delete: function (fullpath) {
+
+                return new Promise(function (resolve, reject) {
+                    fs.unlink(fullpath, function (err) {
+                        if (err) {
+                            reject(err)
+                        } else {
+                            resolve(true)
+                        }
+                    })
+                })
+            },
+
+            /**
+             * 判断文件是否存在
+             * @param {any} path 文件路径
+             */
+            exists: function (path) {
+
+                return new Promise(function (resolve, reject) {
+                    try {
+                        fs.exists(path, function (exists) {
+                            resolve(exists)
+                        })
+                    } catch (e) {
+                        reject(e);
+                    }
+                })
+            }
+        },
+
         //初始化
         init: function () {
 
@@ -1120,6 +1514,8 @@ module.exports = (req, res) => {
                     res.json(vm);
                 })
             } catch (e) {
+                console.log(e);
+
                 vm.code = -1;
                 vm.msg = e
 
