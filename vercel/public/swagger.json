@@ -6,6 +6,53 @@
   },
   "paths": {
 
+    "/badge/nuget/v/{package}.svg": {
+      "get": {
+        "tags": [
+          "Badge"
+        ],
+        "summary": "获取 NuGet 发布包的最新版本",
+        "parameters": [
+          {
+            "name": "package",
+            "description": "NuGet 发布包名",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/badge/npm/v/{package}.svg": {
+      "get": {
+        "tags": [
+          "Badge"
+        ],
+        "summary": "获取 NPM 发布包的最新版本",
+        "parameters": [
+          {
+            "name": "package",
+            "description": "NPM 发布包名",
+            "in": "path",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+
     "/clock/{timezone}": {
       "get": {
         "tags": [
@@ -15,10 +62,11 @@
         "parameters": [
           {
             "name": "timezone",
+            "description": "东1 ~ 12区、西-1 ~ -12区",
             "in": "path",
             "schema": {
               "type": "integer",
-              "description": "东1 ~ 12区、西-1 ~ -12区"
+              "nullable": true
             }
           }
         ],
@@ -52,9 +100,99 @@
           {
             "name": "wh",
             "in": "path",
+            "description": "自定义宽高，如 500*500",
             "schema": {
               "type": "string",
-              "description": "自定义宽高，如 500*500"
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+
+    "/{http}": {
+      "get": {
+        "tags": [
+          "CORS"
+        ],
+        "summary": "跨域代理请求",
+        "parameters": [
+          {
+            "name": "http",
+            "in": "path",
+            "description": "要代理的请求完整请求链接",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CORS"
+        ],
+        "summary": "跨域代理请求",
+        "parameters": [
+          {
+            "name": "http",
+            "in": "path",
+            "description": "要代理的请求完整请求链接",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+    "/cors/{url}": {
+      "get": {
+        "tags": [
+          "CORS"
+        ],
+        "summary": "跨域代理请求",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "description": "要代理的请求完整请求链接",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "CORS"
+        ],
+        "summary": "跨域代理请求",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "description": "要代理的请求完整请求链接",
+            "schema": {
+              "type": "string"
             }
           }
         ],
@@ -114,122 +252,10 @@
             }
           }
         }
-      },
-      "options": {
-        "tags": [
-          "DK"
-        ],
-        "summary": "获取所有表名及注释",
-        "parameters": [
-          {
-            "name": "tdb",
-            "in": "query",
-            "description": "数据库类型（0：MySQL，1：SQLite，2：Oracle，3：SQLServer，4：PostgreSQL）",
-            "schema": {
-              "$ref": "#/components/schemas/TypeDB"
-            }
-          },
-          {
-            "name": "conn",
-            "in": "query",
-            "description": "连接字符串",
-            "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/DK/GetColumn": {
       "post": {
-        "tags": [
-          "DK"
-        ],
-        "summary": "获取所有列",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "tdb": {
-                    "$ref": "#/components/schemas/TypeDB"
-                  },
-                  "conn": {
-                    "type": "string",
-                    "description": "连接字符串",
-                    "nullable": true
-                  },
-                  "filterTableName": {
-                    "type": "string",
-                    "description": "过滤表名，英文逗号分隔，为空时默认所有表",
-                    "default": "",
-                    "nullable": true
-                  }
-                }
-              },
-              "encoding": {
-                "tdb": {
-                  "style": "form"
-                },
-                "conn": {
-                  "style": "form"
-                },
-                "filterTableName": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              }
-            }
-          }
-        }
-      },
-      "options": {
         "tags": [
           "DK"
         ],
@@ -362,156 +388,10 @@
             }
           }
         }
-      },
-      "options": {
-        "tags": [
-          "DK"
-        ],
-        "summary": "设置表注释",
-        "parameters": [
-          {
-            "name": "tdb",
-            "in": "query",
-            "description": "数据库类型（0：MySQL，1：SQLite，2：Oracle，3：SQLServer，4：PostgreSQL）",
-            "schema": {
-              "$ref": "#/components/schemas/TypeDB"
-            }
-          },
-          {
-            "name": "conn",
-            "in": "query",
-            "description": "连接字符串",
-            "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
-            }
-          },
-          {
-            "name": "TableName",
-            "in": "query",
-            "description": "表名",
-            "schema": {
-              "type": "string",
-              "description": "表名",
-              "nullable": true
-            }
-          },
-          {
-            "name": "TableComment",
-            "in": "query",
-            "description": "表注释",
-            "schema": {
-              "type": "string",
-              "description": "表注释",
-              "nullable": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              }
-            }
-          }
-        }
       }
     },
     "/DK/SetColumnComment": {
       "get": {
-        "tags": [
-          "DK"
-        ],
-        "summary": "设置列注释",
-        "parameters": [
-          {
-            "name": "tdb",
-            "in": "query",
-            "description": "数据库类型（0：MySQL，1：SQLite，2：Oracle，3：SQLServer，4：PostgreSQL）",
-            "schema": {
-              "$ref": "#/components/schemas/TypeDB"
-            }
-          },
-          {
-            "name": "conn",
-            "in": "query",
-            "description": "连接字符串",
-            "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
-            }
-          },
-          {
-            "name": "TableName",
-            "in": "query",
-            "description": "表名",
-            "schema": {
-              "type": "string",
-              "description": "表名",
-              "nullable": true
-            }
-          },
-          {
-            "name": "FieldName",
-            "in": "query",
-            "description": "列名",
-            "schema": {
-              "type": "string",
-              "description": "列名",
-              "nullable": true
-            }
-          },
-          {
-            "name": "FieldComment",
-            "in": "query",
-            "description": "列注释",
-            "schema": {
-              "type": "string",
-              "description": "列注释",
-              "nullable": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              }
-            }
-          }
-        }
-      },
-      "options": {
         "tags": [
           "DK"
         ],
@@ -708,124 +588,6 @@
             }
           }
         }
-      },
-      "options": {
-        "tags": [
-          "DK"
-        ],
-        "summary": "查询数据",
-        "parameters": [
-          {
-            "name": "tdb",
-            "in": "query",
-            "description": "数据库类型（0：MySQL，1：SQLite，2：Oracle，3：SQLServer，4：PostgreSQL）",
-            "schema": {
-              "$ref": "#/components/schemas/TypeDB"
-            }
-          },
-          {
-            "name": "conn",
-            "in": "query",
-            "description": "连接字符串",
-            "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
-            }
-          },
-          {
-            "name": "TableName",
-            "in": "query",
-            "description": "表名",
-            "schema": {
-              "type": "string",
-              "description": "表名",
-              "nullable": true
-            }
-          },
-          {
-            "name": "page",
-            "in": "query",
-            "description": "页码",
-            "schema": {
-              "type": "integer",
-              "description": "页码",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "rows",
-            "in": "query",
-            "description": "页量",
-            "schema": {
-              "type": "integer",
-              "description": "页量",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "sort",
-            "in": "query",
-            "description": "排序字段",
-            "schema": {
-              "type": "string",
-              "description": "排序字段",
-              "nullable": true
-            }
-          },
-          {
-            "name": "order",
-            "in": "query",
-            "description": "排序方式",
-            "schema": {
-              "type": "string",
-              "description": "排序方式",
-              "nullable": true
-            }
-          },
-          {
-            "name": "listFieldName",
-            "in": "query",
-            "description": "查询列，默认为 *",
-            "schema": {
-              "type": "string",
-              "description": "查询列，默认为 *",
-              "nullable": true
-            }
-          },
-          {
-            "name": "whereSql",
-            "in": "query",
-            "description": "条件",
-            "schema": {
-              "type": "string",
-              "description": "条件",
-              "nullable": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              }
-            }
-          }
-        }
       }
     }
   },
@@ -882,6 +644,14 @@
     {
       "name": "Common",
       "description": "常用"
+    },
+    {
+      "name": "Badge",
+      "description": "徽章"
+    },
+    {
+      "name": "CORS",
+      "description": "跨域代理访问"
     },
     {
       "name": "DK",
