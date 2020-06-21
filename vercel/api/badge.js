@@ -81,14 +81,7 @@ module.exports = (req, res) => {
             //github fork/star/license
             if (/github\/(forks|stars|license)\/.*\/.*.svg/i.test(upath)) {
                 key = ups[1];
-                bg.load('https://nuget.cdn.azure.cn/v3-flatcontainer/' + ups[3].toLowerCase() + '/index.json', { json: true }, function (data) {
-                    if (data != bg.dv) {
-                        vcolor = "#007ec6";
-                        value = data.versions.pop();
-                    }
-                    let htm = bg.view(key, value, vcolor);
-                    callback(htm);
-                })
+
             }
 
             if (!key) {
