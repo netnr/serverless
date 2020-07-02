@@ -44,6 +44,11 @@
       "dest": "/api/cors.js",
       "continue": true
     },
+    {
+      "src": "/down/(.*)",
+      "dest": "/api/down.js",
+      "continue": true
+    },
 
     {
       "src": "/DK/(.*)",

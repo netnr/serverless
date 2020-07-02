@@ -9,7 +9,8 @@
 ### ❤ Host/cors/{url}
 支持跨域请求（转换不支持跨域请求的接口），可直接发起 ajax、fetch  
 支持HTTPS（解决远程数据接口不支持HTTPS）  
- `{url}`需要 `encodeURIComponent` 编码
+ `{url}`需要 `encodeURIComponent` 编码  
+平台限制 **10** 秒超时（下载大文件不行哦）
 
 **示例**
 - **Host/cors/{url}** 自动补上 `http://`
@@ -29,7 +30,7 @@
 ---
 
 ### ❤ Host/clock/{timezone}
-获取时钟（UTC），默认东8区，中国，自定义时区：东1~12区、西-1~-12区
+获取时钟（UTC），默认东8区，中国，自定义时区：东1 \~ 12区、西-1 ~ -12区
 
 **示例**
 - <https://api.zme.ink/clock>
@@ -67,10 +68,10 @@
 获取 NuGet 发布包的最新版本
 
 **示例**
-- <https://api.zme.ink/badge/nuget/v/Netnr.Core.svg>
 - <https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg>
-- ![Netnr.Core](https://api.zme.ink/badge/nuget/v/Netnr.Core.svg)
 - ![Newtonsoft.Json](https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg)
+- <https://api.zme.ink/badge/npm/v/zoningjs.svg>
+- ![zoningjs](https://api.zme.ink/badge/npm/v/zoningjs.svg)
 
 ---
 

@@ -1,6 +1,6 @@
 {
   "name": "netnr-vercel-serverless",
-  "description": "This directory is a brief example of using a Custom Build script that can be deployed with Vercel and zero configuration.",
+  "description": "Vercel Serverless",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -9,13 +9,12 @@
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
-    "fs": "0.0.1-security",
+    "follow-redirects": "^1.12.1",
     "md5": "^2.2.1",
     "mssql": "^6.2.0",
     "mysql": "^2.18.1",
     "oracledb": "^4.2.0",
     "pg": "^8.2.1",
-    "request": "^2.88.2",
     "sqlite3": "^4.2.0"
   },
   "repository": {

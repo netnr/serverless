@@ -1,28 +1,25 @@
-const request = require("request");
+const url = require('url');
+const fr = require('follow-redirects');
 
 module.exports = (req, res) => {
 
     let rurl = decodeURIComponent(req.url.substr(req.url.indexOf("/http") == 0 ? 1 : 6) || "");
 
     if (/(.*)\.(.*)/.test(rurl)) {
-
         //补上链接头
         if (rurl.toLowerCase().trim().indexOf("http") != 0) {
             rurl = "http://" + rurl;
         }
-
-        let ops = {
-            method: req.method,
-            encoding: null,
-            headers: {}
-        }
+        let ops = url.parse(rurl);
+        ops.headers = {};
+        let hp = ops.protocol == "http:" ? fr.http : fr.https;
 
         //忽略的请求方式
         if (ops.method == "OPTIONS") {
             res.json({ code: 200 });
         } else {
             // 保留的头部键
-            let keephd = ['user-agent', 'accept', 'accept-encoding', 'cache-control', 'content-type', 'cookies', 'referer', 'token', 'authorization'],
+            let keephd = ['user-agent', 'accept', 'accept-encoding', 'cache-control', 'cookie', 'content-type', 'referer', 'token', 'authorization'],
                 headeryes = (req.headers["headeryes"] || "").split(','),
                 //不保留的头部键
                 headerno = (req.headers["headerno"] || "").split(',');
@@ -44,22 +41,32 @@ module.exports = (req, res) => {
                 ops.body = bk.join('&');
             }
 
-            request(rurl, ops, function (error, response, body) {
-                if (!error && response.statusCode == 200) {
-                    let rh = response.headers, ce = rh['content-encoding'], ct = rh["content-type"] || "text/html; charset=utf-8";
-                    if (ce) {
-                        res.setHeader('content-encoding', ce);
+            let hr = hp.request(ops, function (ro) {
+
+                ['content-encoding', 'content-type'].forEach(hk => {
+                    let chk = ro.headers[hk];
+                    if (chk) {
+                        res.setHeader(hk, chk);
                     }
-                    res.setHeader('content-type', ct);
-                    res.send(body);
-                } else {
-                    res.json({
-                        code: -1,
-                        url: rurl,
-                        msg: error + ""
-                    });
-                }
-            })
+                });
+
+                ro.on("data", function (chunk) {
+                    res.write(chunk);
+                });
+
+                ro.on("end", function () {
+                    res.end();
+                });
+            });
+
+            hr.on("error", function (err) {
+                res.json({
+                    code: -1,
+                    msg: err.message
+                });
+            });
+
+            hr.end();
         }
     } else {
         res.json({

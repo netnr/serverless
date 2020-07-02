@@ -651,7 +651,7 @@
     },
     {
       "name": "CORS",
-      "description": "跨域代理访问"
+      "description": "跨域代理访问（平台限制 10 秒超时）"
     },
     {
       "name": "DK",
