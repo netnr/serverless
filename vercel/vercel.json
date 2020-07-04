@@ -19,34 +19,19 @@
     },
 
     {
-      "src": "/clock",
-      "dest": "/api/clock.js",
-      "continue": true
-    },
-    {
-      "src": "/clock/(.*)",
+      "src": "/clock(.*)",
       "dest": "/api/clock.js",
       "continue": true
     },
 
-    {
-      "src": "/cors",
-      "dest": "/api/cors.js",
-      "continue": true
-    },
     {
       "src": "/http(.*)",
       "dest": "/api/cors.js",
       "continue": true
     },
     {
-      "src": "/cors/(.*)",
+      "src": "/cors(.*)",
       "dest": "/api/cors.js",
-      "continue": true
-    },
-    {
-      "src": "/down/(.*)",
-      "dest": "/api/down.js",
       "continue": true
     },
 
@@ -68,13 +53,14 @@
     },
 
     {
-      "src": "/svg",
+      "src": "/svg(.*)",
       "dest": "/api/svg.js",
       "continue": true
     },
+
     {
-      "src": "/svg/(.*)",
-      "dest": "/api/svg.js",
+      "src": "/uuid(.*)",
+      "dest": "/api/uuid.js",
       "continue": true
     },
 

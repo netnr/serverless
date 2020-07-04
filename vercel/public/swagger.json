@@ -114,6 +114,30 @@
         }
       }
     },
+    "/uuid/{count}": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "生成UUID，默认返回一条",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "path",
+            "description": "自定义条数（限制1-99，1条为字符串，多条为数组JSON）",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
 
     "/{http}": {
       "get": {
