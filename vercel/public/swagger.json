@@ -53,6 +53,103 @@
       }
     },
 
+    "/captcha/{count}": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "生成SVG验证码，默认返回一条",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "path",
+            "description": "自定义条数（限制1-99，1条为 Object，多条为 Array）",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "验证码长度，默认4位",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "ignoreChars",
+            "in": "query",
+            "description": "验证码字符中排除，如：0o1i",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "noise",
+            "in": "query",
+            "description": "干扰线条的数量，默认1",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
+            "schema": {
+              "type": "boolean",
+              "nullable": true
+            }
+          },
+          {
+            "name": "background",
+            "in": "query",
+            "description": "验证码图片背景颜色",
+            "schema": {
+              "type": "string",
+              "nullable": true
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "description": "验证码宽，默认150",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "description": "验证码高，默认50",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          },
+          {
+            "name": "fontSize",
+            "in": "query",
+            "description": "验证码字体大小",
+            "schema": {
+              "type": "integer",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
+
     "/clock/{timezone}": {
       "get": {
         "tags": [

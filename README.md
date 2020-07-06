@@ -6,6 +6,35 @@
 
 ---
 
+### ❤ Host/badge/nuget/v/{package}.svg
+获取 NuGet 发布包的最新版本
+
+**示例**
+- <https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg>
+- ![Newtonsoft.Json](https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg)
+- <https://api.zme.ink/badge/npm/v/zoningjs.svg>
+- ![zoningjs](https://api.zme.ink/badge/npm/v/zoningjs.svg)
+
+---
+
+### ❤ Host/captcha/{count}
+生成 SVG 验证码
+
+**示例**
+- <https://api.zme.ink/captcha>
+- <https://api.zme.ink/captcha/2?size=6&color=true&noise=5>
+
+---
+
+### ❤ Host/clock/{timezone}
+获取时钟（UTC），默认东8区，中国，自定义时区：东1 \~ 12区、西-1 ~ -12区
+
+**示例**
+- <https://api.zme.ink/clock>
+- <https://api.zme.ink/clock/0>
+
+---
+
 ### ❤ Host/cors/{url}
 支持跨域请求（转换不支持跨域请求的接口），可直接发起 ajax、fetch  
 支持HTTPS（解决远程数据接口不支持HTTPS）  
@@ -29,12 +58,10 @@
 
 ---
 
-### ❤ Host/clock/{timezone}
-获取时钟（UTC），默认东8区，中国，自定义时区：东1 \~ 12区、西-1 ~ -12区
+### ❤ Host/DK/{fn}
+Netnr.DataKit NodeJs 接口服务，用于数据库工具及代码构建的服务
 
-**示例**
-- <https://api.zme.ink/clock>
-- <https://api.zme.ink/clock/0>
+UI 地址：<https://ss.netnr.com/dk>
 
 ---
 
@@ -56,26 +83,9 @@
 
 ---
 
-### ❤ Host/ip
-获取IP
+### ❤ Host/uuid/{count}
+生成 UUID，默认1条，多条为数组
 
 **示例**
-- <https://api.zme.ink/ip>
-
----
-
-### ❤ Host/badge/nuget/v/{package}.svg
-获取 NuGet 发布包的最新版本
-
-**示例**
-- <https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg>
-- ![Newtonsoft.Json](https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg)
-- <https://api.zme.ink/badge/npm/v/zoningjs.svg>
-- ![zoningjs](https://api.zme.ink/badge/npm/v/zoningjs.svg)
-
----
-
-### ❤ Host/DK/{fn}
-Netnr.DataKit NodeJs 接口服务，用于数据库工具及代码构建的服务
-
-UI 地址：<https://ss.netnr.com/dk>
+- <https://api.zme.ink/uuid>
+- <https://api.zme.ink/uuid/9>

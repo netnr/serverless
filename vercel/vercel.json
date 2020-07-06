@@ -19,6 +19,12 @@
     },
 
     {
+      "src": "/captcha(.*)",
+      "dest": "/api/captcha.js",
+      "continue": true
+    },
+
+    {
       "src": "/clock(.*)",
       "dest": "/api/clock.js",
       "continue": true
