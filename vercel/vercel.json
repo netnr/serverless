@@ -1,5 +1,12 @@
 {
   "version": 2,
+
+  "functions": {
+    "api/dk.js": {
+      "includeFiles": "public/*"
+    }
+  },
+
   "routes": [
 
     {
