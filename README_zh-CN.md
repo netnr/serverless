@@ -1,7 +1,7 @@
-English | [简体中文](README_zh-CN.md)
+[English](README.md) | 简体中文
 
 # Serverless
-Serverless-based services
+基于 Serverless 的服务
 
 ## Vercel
 <https://api.zme.ink>
@@ -9,9 +9,9 @@ Serverless-based services
 ---
 
 ### ❤ Host/badge/nuget/v/{package}.svg
-Get the latest version of the NuGet release package
+获取 NuGet 发布包的最新版本
 
-**Example**
+**示例**
 - <https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg>
 - ![Newtonsoft.Json](https://api.zme.ink/badge/nuget/v/Newtonsoft.Json.svg)
 - <https://api.zme.ink/badge/npm/v/zoningjs.svg>
@@ -20,40 +20,40 @@ Get the latest version of the NuGet release package
 ---
 
 ### ❤ Host/captcha/{count}
-Generate SVG verification code
+生成 SVG 验证码
 
-**Example**
+**示例**
 - <https://api.zme.ink/captcha>
 - <https://api.zme.ink/captcha/2?size=6&color=true&noise=5>
 
 ---
 
 ### ❤ Host/clock/{timezone}
-Get the clock (UTC), the default is East 8 District, China, custom time zone: East 1\~12 District, West -1 ~ -12
+获取时钟（UTC），默认东8区，中国，自定义时区：东1 \~ 12区、西-1 ~ -12区
 
-**Example**
+**示例**
 - <https://api.zme.ink/clock>
 - <https://api.zme.ink/clock/0>
 
 ---
 
 ### ❤ Host/cors/{url}
-Support cross-domain request  
-Convert HTTP to HTTPS  
-`{url}` need `encodeURIComponent` coding  
-Platform limit **10** seconds timeout (not downloading large files)
+支持跨域请求（转换不支持跨域请求的接口），可直接发起 ajax、fetch  
+支持HTTPS（解决远程数据接口不支持HTTPS）  
+ `{url}`需要 `encodeURIComponent` 编码  
+平台限制 **10** 秒超时（下载大文件不行哦）
 
-**Example**
-- **Host/cors/{url}** Auto-fill `http://`
+**示例**
+- **Host/cors/{url}** 自动补上 `http://`
 - <https://api.zme.ink/cors/api.github.com>
 - <https://api.zme.ink/cors/nginx.org/download/nginx-1.16.1.tar.gz>
 - 
-- **Host/{http(s)://url}** The interface can be directly followed by http at the beginning without /cors
+- **Host/{http(s)://url}** 接口后面直接跟 http 开头可以不加 /cors
 - <https://api.zme.ink/https%3A%2F%2Fapi.github.com>
 - <https://api.zme.ink/http%3A%2F%2Fnginx.org%2Fdownload%2Fnginx-1.16.1.tar.gz>
 - 
 - ```js
-  // Copy to the console to run
+  // 拷贝到控制台运行
   var $url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101040100";
   fetch("https://api.zme.ink/" + encodeURIComponent($url)).then(x => x.json()).then(console.log)
   ```
@@ -61,24 +61,24 @@ Platform limit **10** seconds timeout (not downloading large files)
 ---
 
 ### ❤ Host/DK/{fn}
-Netnr.DataKit NodeJs, Interface services, services for database tools and code construction
+Netnr.DataKit NodeJs 接口服务，用于数据库工具及代码构建的服务
 
-UI：<https://ss.netnr.com/dk>
+UI 地址：<https://ss.netnr.com/dk>
 
 ---
 
 ### ❤ Host/ip
-Get IP
+获取IP
 
-**Example**
+**示例**
 - <https://api.zme.ink/ip>
 
 ---
 
 ### ❤ Host/svg/{wh}
-Generate placeholder image, default 200×200
+生成占位图，默认 200×200
 
-**Example**
+**示例**
 - <https://api.zme.ink/svg>
 - <https://api.zme.ink/svg/300*300>
 - <https://api.zme.ink/svg/300x300>
@@ -86,8 +86,8 @@ Generate placeholder image, default 200×200
 ---
 
 ### ❤ Host/uuid/{count}
-Generate UUID, default one, many are array
+生成 UUID，默认1条，多条为数组
 
-**Example**
+**示例**
 - <https://api.zme.ink/uuid>
 - <https://api.zme.ink/uuid/9>
