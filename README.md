@@ -8,7 +8,7 @@ Serverless-based services
 
 ---
 
-### ❤ Host/analysis//{lang}
+### ❤ Host/analysis/{lang}
 Content word segmentation, keyword extraction
 
 **Example**

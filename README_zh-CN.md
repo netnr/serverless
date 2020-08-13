@@ -8,7 +8,7 @@
 
 ---
 
-### ❤ Host/analysis//{lang}
+### ❤ Host/analysis/{lang}
 内容分词、提取关键词
 
 **示例**
