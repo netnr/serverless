@@ -53,10 +53,10 @@ module.exports = (req, res) => {
                 key = "nuget";
                 let pname = ups[2].toLowerCase();
                 pname = pname.substr(0, pname.length - 4);
-                bg.load('https://nuget.cdn.azure.cn/v3-flatcontainer/' + pname + '/index.json', { json: true }, function (data) {
-                    if (data != bg.dv) {
+                bg.load('https://api-v2v3search-0.nuget.org/autocomplete?id=' + pname, { json: true }, function (data) {
+                    if (data.data.length) {
                         vcolor = "#007ec6";
-                        value = "v" + data.versions.pop();
+                        value = "v" + data.data.pop();
                     }
                     let htm = bg.view(key, value, vcolor);
                     callback(htm);

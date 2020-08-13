@@ -8,6 +8,15 @@
 
 ---
 
+### ❤ Host/analysis//{lang}
+内容分词、提取关键词
+
+**示例**
+- <https://api.zme.ink/analysis?content=结过婚的和尚未结过婚的>
+- <https://api.zme.ink/analysis?ctype=1&content=结过婚的和尚未结过婚的>
+
+---
+
 ### ❤ Host/badge/nuget/v/{package}.svg
 获取 NuGet 发布包的最新版本
 

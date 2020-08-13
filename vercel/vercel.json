@@ -26,6 +26,12 @@
     },
 
     {
+      "src": "/analysis(.*)",
+      "dest": "/api/analysis.js",
+      "continue": true
+    },
+
+    {
       "src": "/captcha(.*)",
       "dest": "/api/captcha.js",
       "continue": true

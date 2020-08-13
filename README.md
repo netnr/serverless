@@ -8,6 +8,15 @@ Serverless-based services
 
 ---
 
+### ❤ Host/analysis//{lang}
+Content word segmentation, keyword extraction
+
+**Example**
+- <https://api.zme.ink/analysis?content=结过婚的和尚未结过婚的>
+- <https://api.zme.ink/analysis?ctype=1&content=结过婚的和尚未结过婚的>
+
+---
+
 ### ❤ Host/badge/nuget/v/{package}.svg
 Get the latest version of the NuGet release package
 

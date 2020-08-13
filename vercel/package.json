@@ -9,11 +9,12 @@
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
-    "pg": "^8.3.0",
+    "follow-redirects": "^1.12.1",
     "mssql": "^6.2.0",
     "mysql": "^2.18.1",
+    "nodejieba": "^2.4.1",
     "oracledb": "4.2.0",
-    "follow-redirects": "^1.12.1",
+    "pg": "^8.3.0",
     "svg-captcha": "^1.4.0",
     "uuid": "^8.2.0"
   },
