@@ -3,7 +3,7 @@
   "info": {
     "title": "API",
     "description": "<b>Source</b>：<a target=\"_blank\" href=\"https://github.com/netnr/serverless\">https://github.com/netnr/serverless</a> <b>Blog</b>：<a target=\"_blank\" href=\"https://www.netnr.com\">https://www.netnr.com</a>",
-    "version": "v1"
+    "version": "v1.1"
   },
   "paths": {
 
@@ -219,6 +219,7 @@
         }
       }
     },
+
     "/ip": {
       "get": {
         "tags": [
@@ -232,6 +233,7 @@
         }
       }
     },
+
     "/svg/{wh}": {
       "get": {
         "tags": [
@@ -256,6 +258,7 @@
         }
       }
     },
+
     "/uuid/{count}": {
       "get": {
         "tags": [
@@ -270,95 +273,6 @@
             "schema": {
               "type": "integer",
               "nullable": true
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-
-    "/{http}": {
-      "get": {
-        "tags": [
-          "CORS"
-        ],
-        "summary": "跨域代理请求",
-        "parameters": [
-          {
-            "name": "http",
-            "in": "path",
-            "description": "要代理的请求完整请求链接",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "CORS"
-        ],
-        "summary": "跨域代理请求",
-        "parameters": [
-          {
-            "name": "http",
-            "in": "path",
-            "description": "要代理的请求完整请求链接",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/cors/{url}": {
-      "get": {
-        "tags": [
-          "CORS"
-        ],
-        "summary": "跨域代理请求",
-        "parameters": [
-          {
-            "name": "url",
-            "in": "path",
-            "description": "要代理的请求完整请求链接",
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "CORS"
-        ],
-        "summary": "跨域代理请求",
-        "parameters": [
-          {
-            "name": "url",
-            "in": "path",
-            "description": "要代理的请求完整请求链接",
-            "schema": {
-              "type": "string"
             }
           }
         ],
@@ -814,10 +728,6 @@
     {
       "name": "Badge",
       "description": "徽章"
-    },
-    {
-      "name": "CORS",
-      "description": "跨域代理访问（平台限制 10 秒超时）"
     },
     {
       "name": "DK",

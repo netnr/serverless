@@ -2,10 +2,10 @@ const jb = require("nodejieba");
 
 module.exports = (req, res) => {
     try {
-        //Ö§³ÖµÄÓïÑÔ
+        //æ”¯æŒçš„è¯­è¨€
         let langs = ["zh-cn"], lang = req.url.split('/')[2];
 
-        //Ä¬ÈÏÖĞÎÄ
+        //é»˜è®¤ä¸­æ–‡
         if (langs.indexOf(lang) == -1) {
             lang = langs[0];
         }
@@ -19,10 +19,10 @@ module.exports = (req, res) => {
                 case "zh-cn":
                     {
                         switch (ctype * 1) {
-                            //¹Ø¼ü´Ê
+                            //å…³é”®è¯
                             case 1:
                                 {
-                                    //È¡¶àÉÙ¸ö´Ê
+                                    //å–å¤šå°‘ä¸ªè¯
                                     let topn = parseInt(pars.topn);
                                     topn = isNaN(topn) ? 10 : topn;
 
@@ -32,7 +32,7 @@ module.exports = (req, res) => {
                                     })
                                 }
                                 break;
-                            //·Ö´Ê
+                            //åˆ†è¯
                             default:
                                 res.send({
                                     code: 200,

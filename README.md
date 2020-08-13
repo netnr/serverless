@@ -46,29 +46,6 @@ Get the clock (UTC), the default is East 8 District, China, custom time zone: Ea
 
 ---
 
-### ❤ Host/cors/{url}
-Support cross-domain request  
-Convert HTTP to HTTPS  
-`{url}` need `encodeURIComponent` coding  
-Platform limit **10** seconds timeout (not downloading large files)
-
-**Example**
-- **Host/cors/{url}** Auto-fill `http://`
-- <https://api.zme.ink/cors/api.github.com>
-- <https://api.zme.ink/cors/nginx.org/download/nginx-1.16.1.tar.gz>
-- 
-- **Host/{http(s)://url}** The interface can be directly followed by http at the beginning without /cors
-- <https://api.zme.ink/https%3A%2F%2Fapi.github.com>
-- <https://api.zme.ink/http%3A%2F%2Fnginx.org%2Fdownload%2Fnginx-1.16.1.tar.gz>
-- 
-- ```js
-  // Copy to the console to run
-  var $url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101040100";
-  fetch("https://api.zme.ink/" + encodeURIComponent($url)).then(x => x.json()).then(console.log)
-  ```
-
----
-
 ### ❤ Host/DK/{fn}
 Netnr.DataKit NodeJs, Interface services, services for database tools and code construction
 

@@ -46,29 +46,6 @@
 
 ---
 
-### ❤ Host/cors/{url}
-支持跨域请求（转换不支持跨域请求的接口），可直接发起 ajax、fetch  
-支持HTTPS（解决远程数据接口不支持HTTPS）  
- `{url}`需要 `encodeURIComponent` 编码  
-平台限制 **10** 秒超时（下载大文件不行哦）
-
-**示例**
-- **Host/cors/{url}** 自动补上 `http://`
-- <https://api.zme.ink/cors/api.github.com>
-- <https://api.zme.ink/cors/nginx.org/download/nginx-1.16.1.tar.gz>
-- 
-- **Host/{http(s)://url}** 接口后面直接跟 http 开头可以不加 /cors
-- <https://api.zme.ink/https%3A%2F%2Fapi.github.com>
-- <https://api.zme.ink/http%3A%2F%2Fnginx.org%2Fdownload%2Fnginx-1.16.1.tar.gz>
-- 
-- ```js
-  // 拷贝到控制台运行
-  var $url = "http://wthrcdn.etouch.cn/weather_mini?citykey=101040100";
-  fetch("https://api.zme.ink/" + encodeURIComponent($url)).then(x => x.json()).then(console.log)
-  ```
-
----
-
 ### ❤ Host/DK/{fn}
 Netnr.DataKit NodeJs 接口服务，用于数据库工具及代码构建的服务
 
