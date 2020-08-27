@@ -763,7 +763,7 @@ var dk = {
                             E.TABLE_NAME,
                             F.COLUMN_NAME
                         FROM
-                            ALL_CONSTRAINTS E
+                            USER__CONSTRAINTS E
                             LEFT JOIN USER_CONS_COLUMNS F ON E.TABLE_NAME = F.TABLE_NAME
                             AND E.CONSTRAINT_NAME = F.CONSTRAINT_NAME
                         WHERE
@@ -1392,10 +1392,9 @@ var dk = {
             code: 0,
             msg: null,
             data: null,
-            startTime: dk.time(),
-            endTime: null,
             useTime: null
         };
+        var st = Date.now();
 
         try {
 
@@ -1410,8 +1409,7 @@ var dk = {
                 vm.code = 200;
                 vm.msg = "success";
                 vm.data = ret;
-                vm.endTime = dk.time();
-                vm.useTime = new Date(vm.endTime) - new Date(vm.startTime);
+                vm.useTime = Date.now() - st;
 
                 //输出结果
                 res.json(vm);
@@ -1421,6 +1419,7 @@ var dk = {
 
             vm.code = -1;
             vm.msg = e
+            vm.useTime = Date.now() - st;
 
             //输出结果
             res.json(vm);
