@@ -8,7 +8,15 @@
 
 ---
 
-### ❤ Host/analysis/{lang}
+### ❤ /aip/ocr
+OCR 通用文字识别（百度AI）
+
+**示例**
+- POST <https://api.zme.ink/aip/ocr> ，传 file 或 url ，二选一
+
+---
+
+### ❤ /analysis/{lang}
 内容分词、提取关键词
 
 **示例**
@@ -17,7 +25,7 @@
 
 ---
 
-### ❤ Host/badge/nuget/v/{package}.svg
+### ❤ /badge/nuget/v/{package}.svg
 获取 NuGet 发布包的最新版本
 
 **示例**
@@ -28,7 +36,7 @@
 
 ---
 
-### ❤ Host/captcha/{count}
+### ❤ /captcha/{count}
 生成 SVG 验证码
 
 **示例**
@@ -37,7 +45,7 @@
 
 ---
 
-### ❤ Host/clock/{timezone}
+### ❤ /clock/{timezone}
 获取时钟（UTC），默认东8区，中国，自定义时区：东1 \~ 12区、西-1 ~ -12区
 
 **示例**
@@ -46,14 +54,14 @@
 
 ---
 
-### ❤ Host/DK/{fn}
+### ❤ /DK/{fn}
 Netnr.DataKit NodeJs 接口服务，用于数据库工具及代码构建的服务
 
 UI 地址：<https://ss.netnr.com/dk>
 
 ---
 
-### ❤ Host/ip
+### ❤ /ip
 获取IP
 
 **示例**
@@ -61,7 +69,7 @@ UI 地址：<https://ss.netnr.com/dk>
 
 ---
 
-### ❤ Host/svg/{wh}
+### ❤ /svg/{wh}
 生成占位图，默认 200×200
 
 **示例**
@@ -71,7 +79,7 @@ UI 地址：<https://ss.netnr.com/dk>
 
 ---
 
-### ❤ Host/uuid/{count}
+### ❤ /uuid/{count}
 生成 UUID，默认1条，多条为数组
 
 **示例**

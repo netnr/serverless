@@ -8,7 +8,15 @@ Serverless-based services
 
 ---
 
-### ❤ Host/analysis/{lang}
+### ❤ /aip/ocr
+OCR Universal Character Recognition (Baidu AI)
+
+**Example**
+- POST <https://api.zme.ink/aip/ocr> , pass file or url, choose one
+
+---
+
+### ❤ /analysis/{lang}
 Content word segmentation, keyword extraction
 
 **Example**
@@ -17,7 +25,7 @@ Content word segmentation, keyword extraction
 
 ---
 
-### ❤ Host/badge/nuget/v/{package}.svg
+### ❤ /badge/nuget/v/{package}.svg
 Get the latest version of the NuGet release package
 
 **Example**
@@ -28,7 +36,7 @@ Get the latest version of the NuGet release package
 
 ---
 
-### ❤ Host/captcha/{count}
+### ❤ /captcha/{count}
 Generate SVG verification code
 
 **Example**
@@ -37,7 +45,7 @@ Generate SVG verification code
 
 ---
 
-### ❤ Host/clock/{timezone}
+### ❤ /clock/{timezone}
 Get the clock (UTC), the default is East 8 District, China, custom time zone: East 1\~12 District, West -1 ~ -12
 
 **Example**
@@ -46,14 +54,14 @@ Get the clock (UTC), the default is East 8 District, China, custom time zone: Ea
 
 ---
 
-### ❤ Host/DK/{fn}
+### ❤ /DK/{fn}
 Netnr.DataKit NodeJs, Interface services, services for database tools and code construction
 
 UI：<https://ss.netnr.com/dk>
 
 ---
 
-### ❤ Host/ip
+### ❤ /ip
 Get IP
 
 **Example**
@@ -61,7 +69,7 @@ Get IP
 
 ---
 
-### ❤ Host/svg/{wh}
+### ❤ /svg/{wh}
 Generate placeholder image, default 200×200
 
 **Example**
@@ -71,7 +79,7 @@ Generate placeholder image, default 200×200
 
 ---
 
-### ❤ Host/uuid/{count}
+### ❤ /uuid/{count}
 Generate UUID, default one, many are array
 
 **Example**

@@ -5,7 +5,90 @@
     "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a>"
   },
   "paths": {
-
+    "/aip/ocr": {
+      "post": {
+        "tags": [
+          "AI"
+        ],
+        "summary": "OCR 通用文字识别（50000次/天免费，用自己申请的授权信息更稳定不受限制）",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "待识别的图片文件（二选一）",
+                    "format": "binary",
+                    "nullable": true
+                  },
+                  "url": {
+                    "type": "string",
+                    "description": "远程图片地址（二选一）",
+                    "nullable": true
+                  },
+                  "APP_ID": {
+                    "type": "string",
+                    "description": "百度AI接口：APP_ID（可选，用自己申请的授权信息更稳定不受限制）",
+                    "nullable": true
+                  },
+                  "API_KEY": {
+                    "type": "string",
+                    "description": "百度AI接口：API_KEY（可选，用自己申请的授权信息更稳定不受限制）",
+                    "nullable": true
+                  },
+                  "SECRET_KEY": {
+                    "type": "string",
+                    "description": "百度AI接口：SECRET_KEY（可选，用自己申请的授权信息更稳定不受限制）",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                },
+                "url": {
+                  "style": "form"
+                },
+                "APP_ID": {
+                  "style": "form"
+                },
+                "API_KEY": {
+                  "style": "form"
+                },
+                "SECRET_KEY": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/analysis/{lang}": {
       "get": {
         "tags": [
@@ -49,7 +132,6 @@
         }
       }
     },
-
     "/badge/nuget/v/{package}.svg": {
       "get": {
         "tags": [
@@ -96,7 +178,6 @@
         }
       }
     },
-
     "/captcha/{count}": {
       "get": {
         "tags": [
@@ -193,7 +274,6 @@
         }
       }
     },
-
     "/clock/{timezone}": {
       "get": {
         "tags": [
@@ -218,7 +298,6 @@
         }
       }
     },
-
     "/ip": {
       "get": {
         "tags": [
@@ -232,7 +311,6 @@
         }
       }
     },
-
     "/svg/{wh}": {
       "get": {
         "tags": [
@@ -257,7 +335,6 @@
         }
       }
     },
-
     "/uuid/{count}": {
       "get": {
         "tags": [
@@ -282,7 +359,6 @@
         }
       }
     },
-
     "/DK/GetTable": {
       "get": {
         "tags": [
@@ -700,19 +776,10 @@
             "additionalProperties": false,
             "nullable": true
           },
-          "startTime": {
-            "type": "string",
-            "format": "date-time"
-          },
           "useTime": {
             "type": "number",
             "format": "double",
             "readOnly": true
-          },
-          "endTime": {
-            "type": "string",
-            "format": "date-time",
-            "nullable": true
           }
         },
         "additionalProperties": false
@@ -723,6 +790,10 @@
     {
       "name": "Common",
       "description": "常用"
+    },
+    {
+      "name": "AI",
+      "description": "百度AI"
     },
     {
       "name": "Badge",

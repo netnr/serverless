@@ -20,14 +20,20 @@
     },
 
     {
-      "src": "/badge/(.*)",
-      "dest": "/api/badge.js",
+      "src": "/aip(.*)",
+      "dest": "/api/aip.js",
       "continue": true
     },
 
     {
       "src": "/analysis(.*)",
       "dest": "/api/analysis.js",
+      "continue": true
+    },
+
+    {
+      "src": "/badge/(.*)",
+      "dest": "/api/badge.js",
       "continue": true
     },
 
@@ -40,17 +46,6 @@
     {
       "src": "/clock(.*)",
       "dest": "/api/clock.js",
-      "continue": true
-    },
-
-    {
-      "src": "/http(.*)",
-      "dest": "/api/cors.js",
-      "continue": true
-    },
-    {
-      "src": "/cors(.*)",
-      "dest": "/api/cors.js",
       "continue": true
     },
 
