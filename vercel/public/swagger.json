@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API",
-    "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a>"
+    "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a> &nbsp; 请求最大限制（包含文件）：<b>10MB</b>"
   },
   "paths": {
     "/aip/ocr": {
@@ -307,6 +307,58 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },    
+    "/nsfw": {
+      "post": {
+        "tags": [
+          "AI"
+        ],
+        "summary": "NSFW 图片审查（绘画、变态、中立、色情、性感）",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "description": "待审查的图片文件（不支持GIF）",
+                    "format": "binary",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              }
+            }
           }
         }
       }

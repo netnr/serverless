@@ -69,6 +69,14 @@ UI 地址：<https://ss.netnr.com/dk>
 
 ---
 
+### ❤ /nsfw
+图片审查（绘画、变态、中立、色情、性感）
+
+**示例**
+- POST <https://api.zme.ink/nsfw> ，传 file
+
+---
+
 ### ❤ /svg/{wh}
 生成占位图，默认 200×200
 

@@ -67,6 +67,12 @@
     },
 
     {
+      "src": "/nsfw",
+      "dest": "/api/nsfw.js",
+      "continue": true
+    },
+
+    {
       "src": "/svg(.*)",
       "dest": "/api/svg.js",
       "continue": true

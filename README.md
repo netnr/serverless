@@ -69,6 +69,14 @@ Get IP
 
 ---
 
+### ❤ /nsfw
+Picture review  NSFWJS (Drawing,Hentai,Neutral,Porn,Sexy)
+
+**Example**
+- POST <https://api.zme.ink/nsfw> ，pass file
+
+---
+
 ### ❤ /svg/{wh}
 Generate placeholder image, default 200×200
 
