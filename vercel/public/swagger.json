@@ -310,58 +310,6 @@
           }
         }
       }
-    },    
-    "/nsfw": {
-      "post": {
-        "tags": [
-          "AI"
-        ],
-        "summary": "NSFW 图片审查（绘画、变态、中立、色情、性感）",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "file": {
-                    "type": "string",
-                    "description": "待审查的图片文件（不支持GIF）",
-                    "format": "binary",
-                    "nullable": true
-                  }
-                }
-              },
-              "encoding": {
-                "file": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
-                }
-              }
-            }
-          }
-        }
-      }
     },
     "/svg/{wh}": {
       "get": {

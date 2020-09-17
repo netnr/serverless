@@ -9,13 +9,11 @@
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
-    "@tensorflow/tfjs-node": "^2.4.0",
     "baidu-aip-sdk": "^2.4.6",
     "mssql": "^6.2.1",
     "multiparty": "^4.2.2",
     "mysql": "^2.18.1",
     "nodejieba": "^2.4.1",
-    "nsfwjs": "^2.2.0",
     "oracledb": "5.0.0",
     "pg": "^8.3.3",
     "svg-captcha": "^1.4.0",
