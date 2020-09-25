@@ -10,7 +10,7 @@
         "tags": [
           "AI"
         ],
-        "summary": "OCR 通用文字识别（50000次/天免费，用自己申请的授权信息更稳定不受限制）",
+        "summary": "OCR 通用文字识别（百度接口，50000次/天免费，用自己申请的授权信息更稳定不受限制）",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -92,9 +92,9 @@
     "/analysis/{lang}": {
       "get": {
         "tags": [
-          "Common"
+          "AI"
         ],
-        "summary": "内容分词解析",
+        "summary": "内容分词解析（nodejieba 组件）",
         "parameters": [
           {
             "name": "lang",
@@ -793,7 +793,7 @@
     },
     {
       "name": "AI",
-      "description": "百度AI"
+      "description": "人工智能"
     },
     {
       "name": "Badge",
