@@ -840,7 +840,7 @@ var dk = {
                             E.TABLE_NAME,
                             F.COLUMN_NAME
                         FROM
-                            USER__CONSTRAINTS E
+                            USER_CONSTRAINTS E
                             LEFT JOIN USER_CONS_COLUMNS F ON E.TABLE_NAME = F.TABLE_NAME
                             AND E.CONSTRAINT_NAME = F.CONSTRAINT_NAME
                         WHERE
@@ -1175,7 +1175,7 @@ var dk = {
                         SELECT
                             T1.relname,
                             T2.attname,
-                            T3.adsrc
+                            pg_get_expr(T3.adbin,T3.adrelid) as adsrc
                         FROM
                             pg_class T1,
                             pg_attribute T2,
