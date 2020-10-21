@@ -10,14 +10,14 @@
   "license": "MIT",
   "dependencies": {
     "baidu-aip-sdk": "^2.4.6",
-    "mssql": "^6.2.1",
+    "mssql": "^6.2.3",
     "multiparty": "^4.2.2",
     "mysql": "^2.18.1",
     "nodejieba": "^2.4.1",
     "oracledb": "4.2.0",
-    "pg": "^8.3.3",
+    "pg": "^8.4.1",
     "svg-captcha": "^1.4.0",
-    "uuid": "^8.3.0"
+    "uuid": "^8.3.1"
   },
   "repository": {
     "type": "git",

@@ -722,10 +722,10 @@ ms@^2.1.1:
   resolved "https://registry.npm.taobao.org/ms/download/ms-2.1.2.tgz#d09d1f357b443f493382a8eb3ccd183872ae6009"
   integrity sha1-0J0fNXtEP0kzgqjrPM0YOHKuYAk=
 
-mssql@^6.2.1:
-  version "6.2.1"
-  resolved "https://registry.yarnpkg.com/mssql/-/mssql-6.2.1.tgz#4f18b8e2a29d67ee341dca84870d5de6234f7709"
-  integrity sha512-erINJ9EUPvPuWXifZfhum0CVEVrdvnFYlpgU6WKkQW69W4W7DWqJS2FHdedHnuJWlJ8x1WW1NcD8GFfF15O2aA==
+mssql@^6.2.3:
+  version "6.2.3"
+  resolved "https://registry.yarnpkg.com/mssql/-/mssql-6.2.3.tgz#1d15bbe8c3057e32ee6e98596b6c323b097a6cba"
+  integrity sha512-4TW/fA9UgzmVTNgjl65r6ISr6aL5QHnlptEt1A3jIpdzkNbFPIkRbUNz90324HIdE+5pKc3VqikOImcTrhd4og==
   dependencies:
     debug "^4"
     tarn "^1.1.5"
@@ -861,10 +861,10 @@ opentype.js@^0.7.3:
   dependencies:
     tiny-inflate "^1.0.2"
 
-oracledb@5.0.0:
-  version "5.0.0"
-  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-5.0.0.tgz#c357fcc1d3cd18f64ecc8270b677ee0f04b3b233"
-  integrity sha512-NLE3t6KiAkpBHA1/zgjNiKaa9Z4Nnp4PuB3d0b3Kz4C8klrIrMKfHIGUySlwqgDW588m7/2hnPxU7PH6wjBd6g==
+oracledb@4.2.0:
+  version "4.2.0"
+  resolved "https://registry.yarnpkg.com/oracledb/-/oracledb-4.2.0.tgz#b4d97957d206f7c2d1c2286cc80e91ff2d45fce8"
+  integrity sha512-07ZylNcUB9wknsiRa7dNqDWgGK3loP8eNWuoCjsiCOZ19PA1g8QLu+0gah7ty82VXl/MOQYFCMl5OpjD9Aqjcw==
 
 os-homedir@^1.0.0:
   version "1.0.2"
