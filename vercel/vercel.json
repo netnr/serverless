@@ -67,8 +67,8 @@
     },
 
     {
-      "src": "/nsfw",
-      "dest": "/api/nsfw.js",
+      "src": "/minify(.*)",
+      "dest": "/api/minify.js",
       "continue": true
     },
 

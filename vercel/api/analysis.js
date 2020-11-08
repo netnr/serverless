@@ -14,7 +14,6 @@ module.exports = (req, res) => {
         let ctype = pars.ctype, content = pars.content;
 
         if (content != null) {
-            content = decodeURIComponent(content);
             switch (lang) {
                 case "zh-cn":
                     {

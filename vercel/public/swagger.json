@@ -311,6 +311,64 @@
         }
       }
     },
+    "/minify/css": {
+      "post": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "CSS压缩",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "content": {
+                    "type": "string",
+                    "description": "CSS内容"
+                  },
+                  "options": {
+                    "type": "string",
+                    "description": "自定义配置，JSON配置字符串，参考：https://github.com/fmarcia/UglifyCSS",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "content": {
+                  "style": "form"
+                },
+                "options": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/svg/{wh}": {
       "get": {
         "tags": [

@@ -15,8 +15,9 @@
     "mysql": "^2.18.1",
     "nodejieba": "^2.4.1",
     "oracledb": "4.2.0",
-    "pg": "^8.4.1",
+    "pg": "^8.4.2",
     "svg-captcha": "^1.4.0",
+    "uglifycss": "^0.0.29",
     "uuid": "^8.3.1"
   },
   "repository": {
