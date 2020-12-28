@@ -2,7 +2,7 @@
   "openapi": "3.0.1",
   "info": {
     "title": "API",
-    "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a> &nbsp; 请求最大限制（包含文件）：<b>10MB</b>"
+    "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a> &nbsp; 请求最大限制（包含文件）：<b>5MB</b>"
   },
   "paths": {
     "/aip/ocr": {
@@ -174,6 +174,93 @@
         "responses": {
           "200": {
             "description": "Success"
+          }
+        }
+      }
+    },
+    "/bed": {
+      "get": {
+        "tags": [
+          "Bed"
+        ],
+        "summary": "聚合图床（获取存储商列表）",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Bed"
+        ],
+        "summary": "聚合图床（上传）",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "url": {
+                    "type": "string",
+                    "description": "存储商接口URL",
+                    "format": "string"
+                  },
+                  "file": {
+                    "type": "string",
+                    "description": "图片文件",
+                    "format": "binary"
+                  }
+                }
+              },
+              "encoding": {
+                "vendor": {
+                  "style": "form"
+                },
+                "file": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ActionResultVM"
+                }
+              }
+            }
           }
         }
       }
@@ -906,6 +993,10 @@
     {
       "name": "Badge",
       "description": "徽章"
+    },
+    {
+      "name": "Bed",
+      "description": "图床"
     },
     {
       "name": "DK",

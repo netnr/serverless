@@ -1,7 +1,5 @@
-English | [简体中文](README_zh-CN.md)
-
 # Serverless
+基于 Serverless 的服务  
 Serverless-based services
 
-## Vercel
-<https://api.zme.ink>
+Demo：<https://api.zme.ink>
