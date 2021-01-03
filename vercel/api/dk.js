@@ -380,17 +380,17 @@ var dk = {
 
                 var cmd = `
                     SELECT
-                        ` + listFieldName + `
+                        ${listFieldName}
                     FROM
-                        ` + TableName + ` ` + whereSql + `
+                        ${TableName} ${whereSql}
                     ORDER BY
-                        ` + sort + ` ` + order + `
+                        ${sort} ${order}
                     LIMIT
-                        ` + (page - 1) * rows + `,` + rows;
+                        ${(page - 1) * rows},${rows}`;
 
                 var cmds = [];
                 cmds.push(cmd);
-                cmds.push(`select count(1) as total from ` + TableName + ` ` + whereSql);
+                cmds.push(`select count(1) as total from ${TableName} ${whereSql}`);
 
                 return this.QueryData(dk, cmds);
             },
@@ -403,7 +403,7 @@ var dk = {
 
                 var mo = dk.model.dkDEI();
 
-                var cmds = `show variables;select now();SELECT 'a'='A';show status like 'Threads_connected'`.split(';');
+                var cmds = `show variables; select now(); SELECT 'a' = 'A'; show status like 'Threads_connected'`.split(';');
                 var pms = [];
                 for (var i = 0; i < cmds.length; i++) {
                     pms.push(this.Query(dk, cmds[i]))
@@ -531,15 +531,15 @@ var dk = {
             GetTable: function (dk) {
 
                 var cmd = `
-                    SELECT
-                        tbl_name AS TableName,
-                        '' AS TableComment
-                    FROM
-                        sqlite_master
-                    WHERE
-                        type = 'table'
-                    ORDER BY tbl_name
-                     `;
+                SELECT
+                tbl_name AS TableName,
+                    '' AS TableComment
+                FROM
+                sqlite_master
+                WHERE
+                type = 'table'
+                ORDER BY tbl_name
+                    `;
 
                 return this.Query(dk, cmd);
             },
@@ -694,18 +694,18 @@ var dk = {
                 var page = Number(dk.pars.page) || 1;
 
                 var cmd = `
-                    SELECT
-                        ` + listFieldName + `
-                    FROM
-                        ` + TableName + ` ` + whereSql + `
-                    ORDER BY
-                        ` + sort + ` ` + order + `
-                    LIMIT
-                        ` + rows + ` OFFSET ` + (page - 1) * rows;
+                SELECT
+                    ${listFieldName}
+                FROM
+                    ${TableName} ${whereSql}
+                ORDER BY
+                    ${sort} ${order}
+                LIMIT
+                    ${rows} OFFSET ${(page - 1) * rows}`;
 
                 var cmds = [];
                 cmds.push(cmd);
-                cmds.push(`select count(1) as total from ` + TableName + ` ` + whereSql);
+                cmds.push(`select count(1) as total from ${TableName} ${whereSql}`);
 
                 return this.QueryData(dk, cmds);
             },
@@ -718,7 +718,7 @@ var dk = {
 
                 var mo = dk.model.dkDEI();
 
-                var cmds = `select sqlite_version();PRAGMA encoding;select datetime();select 'a'='A'`.split(';');
+                var cmds = `select sqlite_version(); PRAGMA encoding; select datetime(); select 'a' = 'A'`.split(';');
 
                 return this.Querys(dk, cmds).then(results => {
 
@@ -788,16 +788,16 @@ var dk = {
             GetTable: function (dk) {
 
                 var cmd = `
-                    SELECT
-                        A.table_name AS "TableName",
-                        B.comments AS "TableComment"
-                    FROM
-                        user_tables A,
-                        user_tab_comments B
-                    WHERE
-                        A.table_name = B.table_name
-                    ORDER BY A.table_name
-                 `;
+                SELECT
+                A.table_name AS "TableName",
+                    B.comments AS "TableComment"
+                FROM
+                user_tables A,
+                    user_tab_comments B
+                WHERE
+                A.table_name = B.table_name
+                ORDER BY A.table_name
+                    `;
 
                 return this.Query(dk, cmd);
             },
@@ -809,50 +809,50 @@ var dk = {
             GetColumn: function (dk) {
 
                 var cmd = `
-                    SELECT
-                        A.TABLE_NAME AS "TableName",
-                        B.COMMENTS AS "TableComment",
+                SELECT
+                A.TABLE_NAME AS "TableName",
+                    B.COMMENTS AS "TableComment",
                         C.COLUMN_NAME AS "FieldName",
-                        C.DATA_TYPE || '(' || CASE
-                        WHEN C.CHARACTER_SET_NAME = 'NCHAR_CS' THEN C.DATA_LENGTH / 2
-                        ELSE C.DATA_LENGTH
-                        END || ')' AS "DataTypeLength",
-                        C.DATA_TYPE AS "DataType",
+                            C.DATA_TYPE || '(' || CASE
+                WHEN C.CHARACTER_SET_NAME = 'NCHAR_CS' THEN C.DATA_LENGTH / 2
+                ELSE C.DATA_LENGTH
+                END || ')' AS "DataTypeLength",
+                    C.DATA_TYPE AS "DataType",
                         CASE
-                        WHEN C.CHARACTER_SET_NAME = 'NCHAR_CS' THEN C.DATA_LENGTH / 2
-                        WHEN C.DATA_TYPE = 'NUMBER' THEN C.DATA_PRECISION
-                        ELSE C.DATA_LENGTH
-                        END AS "DataLength",
-                        C.DATA_SCALE AS "DataScale",
+                WHEN C.CHARACTER_SET_NAME = 'NCHAR_CS' THEN C.DATA_LENGTH / 2
+                WHEN C.DATA_TYPE = 'NUMBER' THEN C.DATA_PRECISION
+                ELSE C.DATA_LENGTH
+                END AS "DataLength",
+                    C.DATA_SCALE AS "DataScale",
                         C.COLUMN_ID AS "FieldOrder",
-                        DECODE(PK.COLUMN_NAME, C.COLUMN_NAME, 'YES', '') AS "PrimaryKey",
-                        DECODE(C.NULLABLE, 'N', 'YES', '') AS "NotNull",
-                        C.DATA_DEFAULT AS "DefaultValue",
-                        D.COMMENTS AS "FieldComment"
-                    FROM
-                        USER_TABLES A
-                        LEFT JOIN USER_TAB_COMMENTS B ON A.TABLE_NAME = B.TABLE_NAME
-                        LEFT JOIN USER_TAB_COLUMNS C ON A.TABLE_NAME = C.TABLE_NAME
-                        LEFT JOIN USER_COL_COMMENTS D ON A.TABLE_NAME = D.TABLE_NAME
-                        AND C.COLUMN_NAME = D.COLUMN_NAME
-                        LEFT JOIN (
-                        SELECT
+                            DECODE(PK.COLUMN_NAME, C.COLUMN_NAME, 'YES', '') AS "PrimaryKey",
+                                DECODE(C.NULLABLE, 'N', 'YES', '') AS "NotNull",
+                                    C.DATA_DEFAULT AS "DefaultValue",
+                                        D.COMMENTS AS "FieldComment"
+                FROM
+                USER_TABLES A
+                LEFT JOIN USER_TAB_COMMENTS B ON A.TABLE_NAME = B.TABLE_NAME
+                LEFT JOIN USER_TAB_COLUMNS C ON A.TABLE_NAME = C.TABLE_NAME
+                LEFT JOIN USER_COL_COMMENTS D ON A.TABLE_NAME = D.TABLE_NAME
+                AND C.COLUMN_NAME = D.COLUMN_NAME
+                LEFT JOIN(
+                    SELECT
                             E.TABLE_NAME,
-                            F.COLUMN_NAME
+                    F.COLUMN_NAME
                         FROM
                             USER_CONSTRAINTS E
                             LEFT JOIN USER_CONS_COLUMNS F ON E.TABLE_NAME = F.TABLE_NAME
                             AND E.CONSTRAINT_NAME = F.CONSTRAINT_NAME
                         WHERE
                             E.CONSTRAINT_TYPE = 'P'
-                        ) PK ON PK.TABLE_NAME = A.TABLE_NAME
-                        AND C.COLUMN_NAME = PK.COLUMN_NAME
-                    WHERE
-                        1 = 1 {sqlWhere}
-                    ORDER BY
-                        A.TABLE_NAME,
-                        C.COLUMN_ID
-                 `;
+                ) PK ON PK.TABLE_NAME = A.TABLE_NAME
+                AND C.COLUMN_NAME = PK.COLUMN_NAME
+                WHERE
+                1 = 1 { sqlWhere }
+                ORDER BY
+                A.TABLE_NAME,
+                    C.COLUMN_ID
+                        `;
 
                 var whereSql = "";
                 var tns = dk.pars.filterTableName;
@@ -918,24 +918,24 @@ var dk = {
                 var page = Number(dk.pars.page) || 1;
 
                 var cmd = `
-                    SELECT
-                        *
+                SELECT
+                    *
                     FROM
                         (
-                        SELECT
-                            ROWNUM AS rowno,` + listFieldName + `
+                            SELECT
+                            ROWNUM AS rowno, ${listFieldName}
                         FROM
-                            ` + TableName + ` t
+                            ${TableName}
                         WHERE
-                            ROWNUM <= ` + (page * rows) + ` ` + whereSql + `
-                        ORDER BY ` + sort + ` ` + order + `
+                            ROWNUM <= ${(page * rows)} ${whereSql}
+                        ORDER BY ${sort} ${order}
                         ) table_alias
-                    WHERE
-                        table_alias.rowno >= ` + ((page - 1) * rows + 1);
+                WHERE
+                table_alias.rowno >= ${(page - 1) * rows + 1}`;
 
                 var cmds = [];
                 cmds.push(cmd);
-                cmds.push(`select count(1) as total from ` + TableName + ` ` + countWhere);
+                cmds.push(`select count(1) as total from ${TableName} ${countWhere}`);
 
                 return this.QueryData(dk, cmds);
             },
@@ -949,26 +949,26 @@ var dk = {
                 var mo = dk.model.dkDEI();
 
                 var cmds = `select * from product_component_version;
-                            SELECT file_name
-                                FROM dba_data_files
-                            WHERE file_id = 1
-                            UNION ALL
-                            SELECT value
-                                FROM Nls_Database_Parameters
-                            WHERE PARAMETER = 'NLS_CHARACTERSET'
-                            UNION ALL
-                            SELECT SESSIONTIMEZONE
-                                FROM DUAL
-                            UNION ALL
-                            SELECT TO_CHAR(SYSDATE, 'yyyy-mm-dd hh24:mi:ss')
-                                FROM DUAL
-                            UNION ALL
-                            SELECT TO_CHAR(value)
-                                FROM v$parameter
-                            WHERE name = 'processes'
-                            UNION ALL
-                            SELECT TO_CHAR(count(1))
-                                FROM v$process`.split(';');
+                SELECT file_name
+                FROM dba_data_files
+                WHERE file_id = 1
+                UNION ALL
+                SELECT value
+                FROM Nls_Database_Parameters
+                WHERE PARAMETER = 'NLS_CHARACTERSET'
+                UNION ALL
+                SELECT SESSIONTIMEZONE
+                FROM DUAL
+                UNION ALL
+                SELECT TO_CHAR(SYSDATE, 'yyyy-mm-dd hh24:mi:ss')
+                FROM DUAL
+                UNION ALL
+                SELECT TO_CHAR(value)
+                FROM v$parameter
+                WHERE name = 'processes'
+                UNION ALL
+                SELECT TO_CHAR(count(1))
+                FROM v$process`.split(';');
 
                 var pms = [];
                 for (var i = 0; i < cmds.length; i++) {
@@ -1089,20 +1089,20 @@ var dk = {
             GetTable: function (dk) {
 
                 var cmd = `
-                    SELECT
-                        relname AS "TableName",
-                        Cast (
-                        Obj_description (relfilenode, 'pg_class') AS VARCHAR
-                        ) AS "TableComment"
-                    FROM
-                        pg_class C
-                    WHERE
-                        relkind = 'r'
-                        AND relname NOT LIKE 'pg_%'
-                        AND relname NOT LIKE 'sql_%'
-                    ORDER BY
-                        relname
-                 `;
+                SELECT
+                relname AS "TableName",
+                    Cast(
+                        Obj_description(relfilenode, 'pg_class') AS VARCHAR
+                    ) AS "TableComment"
+                FROM
+                pg_class C
+                WHERE
+                relkind = 'r'
+                AND relname NOT LIKE 'pg_%'
+                AND relname NOT LIKE 'sql_%'
+                ORDER BY
+                relname
+                    `;
 
                 return this.Query(dk, cmd);
             },
@@ -1114,81 +1114,81 @@ var dk = {
             GetColumn: function (dk) {
 
                 var cmd = `
-                    SELECT
-                        C.relname AS "TableName",
-                        CAST(
+                SELECT
+                C.relname AS "TableName",
+                    CAST(
                         obj_description(relfilenode, 'pg_class') AS VARCHAR
-                        ) AS "TableComment",
+                    ) AS "TableComment",
                         A.attname AS "FieldName",
-                        concat_ws(
-                        '',
-                        T.typname,
-                        SUBSTRING(
-                            format_type(A.atttypid, A.atttypmod)
+                            concat_ws(
+                                '',
+                                T.typname,
+                                SUBSTRING(
+                                    format_type(A.atttypid, A.atttypmod)
                             FROM
                             '\(.*\)'
-                        )
-                        ) AS "DataTypeLength",
-                        T.typname AS "DataType",
-                        SUBSTRING(
-                        format_type(A.atttypid, A.atttypmod)
+                                )
+                            ) AS "DataTypeLength",
+                                T.typname AS "DataType",
+                                    SUBSTRING(
+                                        format_type(A.atttypid, A.atttypmod)
                         FROM
                             '\d+'
-                        ) AS "DataLength",
-                        REPLACE(
-                        SUBSTRING(
-                            format_type(A.atttypid, A.atttypmod)
+                                    ) AS "DataLength",
+                                        REPLACE(
+                                            SUBSTRING(
+                                                format_type(A.atttypid, A.atttypmod)
                             FROM
                             '\,\d+'
-                        ),
-                        ',',
-                        ''
-                        ) AS "DataScale",
-                        A.attnum AS "FieldOrder",
-                        CASE
-                        WHEN EXISTS (
-                            SELECT
+                                            ),
+                                            ',',
+                                            ''
+                                        ) AS "DataScale",
+                                            A.attnum AS "FieldOrder",
+                                                CASE
+                WHEN EXISTS(
+                    SELECT
                             pg_attribute.attname
                             FROM
                             pg_constraint
                             INNER JOIN pg_class ON pg_constraint.conrelid = pg_class.oid
                             INNER JOIN pg_attribute ON pg_attribute.attrelid = pg_class.oid
-                            AND pg_attribute.attnum = pg_constraint.conkey [1]
+                            AND pg_attribute.attnum = pg_constraint.conkey[1]
                             WHERE
                             relname = C.relname
                             AND attname = A.attname
-                        ) THEN 'YES'
-                        ELSE ''
-                        END AS "PrimaryKey",
-                        CASE
-                        A.attnotnull
-                        WHEN 't' THEN 'YES'
-                        ELSE ''
-                        END AS "NotNull",
-                        D.adsrc AS "DefaultValue",
+                ) THEN 'YES'
+                ELSE ''
+                END AS "PrimaryKey",
+                    CASE
+                A.attnotnull
+                WHEN 't' THEN 'YES'
+                ELSE ''
+                END AS "NotNull",
+                    D.adsrc AS "DefaultValue",
                         col_description(A.attrelid, A.attnum) AS "FieldComment"
-                    FROM
-                        pg_class C
-                        LEFT JOIN pg_attribute A ON A.attrelid = C.oid
-                        LEFT JOIN pg_type T ON A.atttypid = T.oid
-                        LEFT JOIN (
-                        SELECT
+                FROM
+                pg_class C
+                LEFT JOIN pg_attribute A ON A.attrelid = C.oid
+                LEFT JOIN pg_type T ON A.atttypid = T.oid
+                LEFT JOIN(
+                    SELECT
                             T1.relname,
-                            T2.attname,
-                            pg_get_expr(T3.adbin,T3.adrelid) as adsrc
+                    T2.attname,
+                    pg_get_expr(T3.adbin, T3.adrelid) as adsrc
                         FROM
                             pg_class T1,
-                            pg_attribute T2,
-                            pg_attrdef T3
+                    pg_attribute T2,
+                    pg_attrdef T3
                         WHERE
                             T3.adrelid = T1.oid
                             AND adnum = T2.attnum
                             AND attrelid = T1.oid
-                        ) D ON D.relname = C.relname
-                        AND D.attname = A.attname
-                    WHERE
-                        C.relname IN (
-                            SELECT
+                ) D ON D.relname = C.relname
+                AND D.attname = A.attname
+                WHERE
+                C.relname IN(
+                    SELECT
                             relname
                             FROM
                             pg_class
@@ -1196,12 +1196,12 @@ var dk = {
                             relkind = 'r'
                             AND relname NOT LIKE 'pg_%'
                             AND relname NOT LIKE 'sql_%'
-                        )
-                        AND A.attnum > 0 {sqlWhere}
-                    ORDER BY
-                        C.relname,
-                        A.attnum
-                 `;
+                )
+                AND A.attnum > 0 { sqlWhere }
+                ORDER BY
+                C.relname,
+                    A.attnum
+                        `;
 
                 var whereSql = "";
                 var tns = dk.pars.filterTableName;
@@ -1266,18 +1266,18 @@ var dk = {
                 var page = Number(dk.pars.page) || 1;
 
                 var cmd = `
-                    SELECT
-                        ` + listFieldName + `
-                    FROM
-                        ` + TableName + ` ` + whereSql + `
-                    ORDER BY
-                        ` + sort + ` ` + order + `
-                    LIMIT
-                        ` + rows + ` OFFSET ` + (page - 1) * rows;
+                SELECT
+                    ${listFieldName}
+                FROM
+                    ${TableName} ${whereSql}
+                ORDER BY
+                    ${sort} ${order}
+                LIMIT
+                    ${rows} OFFSET ${(page - 1) * rows}`;
 
                 var cmds = [];
                 cmds.push(cmd);
-                cmds.push(`select count(1) as total from ` + TableName + ` ` + whereSql);
+                cmds.push(`select count(1) as total from ${TableName} ${whereSql}`);
 
                 return this.QueryData(dk, cmds);
             },
@@ -1291,10 +1291,10 @@ var dk = {
                 var mo = dk.model.dkDEI();
 
                 var cmds = `
-                            SELECT version();
-                            show all;
-                            select now();
-                            select count(1) from pg_stat_activity`.split(';');
+                SELECT version();
+                show all;
+                select now();
+                select count(1) from pg_stat_activity`.split(';');
 
                 return this.Querys(dk, cmds).then(results => {
 
@@ -1397,14 +1397,14 @@ var dk = {
             GetTable: function (dk) {
 
                 var cmd = `
-                    SELECT
-                        a.name AS TableName,
-                        b.value AS TableComment
-                    FROM
-                        sys.TABLES a
-                        left join sys.extended_properties b ON b.major_id = a.object_id AND b.minor_id = 0
-                    ORDER BY a.name
-                     `;
+                SELECT
+                a.name AS TableName,
+                    b.value AS TableComment
+                FROM
+                sys.TABLES a
+                left join sys.extended_properties b ON b.major_id = a.object_id AND b.minor_id = 0
+                ORDER BY a.name
+                    `;
 
                 return this.Query(dk, cmd);
             },
@@ -1416,70 +1416,70 @@ var dk = {
             GetColumn: function (dk) {
 
                 var cmd = `
-                    SELECT TableName = d.name,
-                            TableComment = ISNULL(f.value, ''),
-                            FieldName = a.name,
-                            DataTypeLength = b.name + '(' + CONVERT(VARCHAR(10), COLUMNPROPERTY(a.id, a.name, 'PRECISION')) + ')',
-                            DataType = b.name,
-                            [DataLength] = COLUMNPROPERTY(a.id, a.name, 'PRECISION'),
-                            DataScale = ISNULL(COLUMNPROPERTY(a.id, a.name, 'Scale'), 0),
-                            FieldOrder = a.colorder,
-                            PrimaryKey = CASE
-                                            WHEN EXISTS
-                                                    (
-                                                        SELECT 1
+                SELECT TableName = d.name,
+                    TableComment = ISNULL(f.value, ''),
+                    FieldName = a.name,
+                    DataTypeLength = b.name + '(' + CONVERT(VARCHAR(10), COLUMNPROPERTY(a.id, a.name, 'PRECISION')) + ')',
+                    DataType = b.name,
+                    [DataLength] = COLUMNPROPERTY(a.id, a.name, 'PRECISION'),
+                    DataScale = ISNULL(COLUMNPROPERTY(a.id, a.name, 'Scale'), 0),
+                    FieldOrder = a.colorder,
+                    PrimaryKey = CASE
+                WHEN EXISTS
+                    (
+                        SELECT 1
                                                         FROM sysobjects
                                                         WHERE xtype = 'PK'
                                                             AND name IN
-                                                                (
-                                                                    SELECT name
+                        (
+                            SELECT name
                                                                     FROM sysindexes
                                                                     WHERE indid IN
-                                                                            (
-                                                                                SELECT indid FROM sysindexkeys WHERE id = a.id AND colid = a.colid
-                                                                            )
-                                                                )
-                                                    ) THEN
-                                                'YES'
-                                            ELSE
-                                                ''
-                                        END,
-                            AutoAdd = CASE
-                                            WHEN i.name IS NULL THEN
-                                                ''
-                                            ELSE
-                                                'YES'
-                                        END,
-                            NotNull = CASE
-                                            WHEN a.isnullable = 1 THEN
-                                                ''
-                                            ELSE
-                                                'YES'
-                                        END,
-                            DefaultValue = e.text,
-                            FieldComment = ISNULL(g.[value], '')
-                    FROM syscolumns a
-                        LEFT JOIN systypes b
-                            ON a.xtype = b.xusertype
-                        INNER JOIN sysobjects d
-                            ON a.id = d.id
-                                AND d.xtype = 'U'
-                                AND d.name != 'dtproperties'
-                        LEFT JOIN syscomments e
-                            ON a.cdefault = e.id
-                        LEFT JOIN sys.extended_properties g
-                            ON a.id = g.major_id
-                                AND a.colid = g.minor_id
-                        LEFT JOIN sys.extended_properties f
-                            ON d.id = f.major_id
-                                AND f.minor_id = 0
-                        LEFT JOIN sys.identity_columns i
-                            ON i.[object_id] = OBJECT_ID(d.name)
-                                AND i.name = a.name
-                    WHERE 1 = 1 {sqlWhere}
-                    ORDER BY d.name,
-                                a.colorder;
-                 `;
+                            (
+                                SELECT indid FROM sysindexkeys WHERE id = a.id AND colid = a.colid
+                            )
+                        )
+                    ) THEN
+                'YES'
+                ELSE
+                ''
+                END,
+                    AutoAdd = CASE
+                WHEN i.name IS NULL THEN
+                ''
+                ELSE
+                'YES'
+                END,
+                    NotNull = CASE
+                WHEN a.isnullable = 1 THEN
+                ''
+                ELSE
+                'YES'
+                END,
+                    DefaultValue = e.text,
+                    FieldComment = ISNULL(g.[value], '')
+                FROM syscolumns a
+                LEFT JOIN systypes b
+                ON a.xtype = b.xusertype
+                INNER JOIN sysobjects d
+                ON a.id = d.id
+                AND d.xtype = 'U'
+                AND d.name != 'dtproperties'
+                LEFT JOIN syscomments e
+                ON a.cdefault = e.id
+                LEFT JOIN sys.extended_properties g
+                ON a.id = g.major_id
+                AND a.colid = g.minor_id
+                LEFT JOIN sys.extended_properties f
+                ON d.id = f.major_id
+                AND f.minor_id = 0
+                LEFT JOIN sys.identity_columns i
+                ON i.[object_id] = OBJECT_ID(d.name)
+                AND i.name = a.name
+                WHERE 1 = 1 { sqlWhere }
+                ORDER BY d.name,
+                    a.colorder;
+                `;
 
                 var whereSql = "";
                 var tns = dk.pars.filterTableName;
@@ -1498,24 +1498,24 @@ var dk = {
             SetTableComment: function (dk) {
 
                 var cmd = `
-                    IF NOT EXISTS
+                IF NOT EXISTS
                     (
                         SELECT A.name,
-                                C.value
+                        C.value
                         FROM sys.tables A
                             INNER JOIN sys.extended_properties C
                                 ON C.major_id = A.object_id
                                     AND minor_id = 0
                         WHERE A.name = N'{dataTableName}'
                     )
-                        EXEC sys.sp_addextendedproperty @name = N'MS_Description',
+                EXEC sys.sp_addextendedproperty @name = N'MS_Description',
                                                         @value = N'{comment}',
                                                         @level0type = N'SCHEMA',
                                                         @level0name = N'dbo',
                                                         @level1type = N'TABLE',
                                                         @level1name = N'{dataTableName}';
 
-                    EXEC sp_updateextendedproperty @name = N'MS_Description',
+                EXEC sp_updateextendedproperty @name = N'MS_Description',
                                                     @value = N'{comment}',
                                                     @level0type = N'SCHEMA',
                                                     @level0name = N'dbo',
@@ -1534,7 +1534,7 @@ var dk = {
             SetColumnComment: function (dk) {
 
                 var cmd = `
-                    IF NOT EXISTS
+                IF NOT EXISTS
                     (
                         SELECT C.value AS column_description
                         FROM sys.tables A
@@ -1546,7 +1546,7 @@ var dk = {
                         WHERE A.name = N'{dataTableName}'
                                 AND B.name = N'{dataColumnName}'
                     )
-                        EXEC sys.sp_addextendedproperty @name = N'MS_Description',
+                EXEC sys.sp_addextendedproperty @name = N'MS_Description',
                                                         @value = N'{comment}',
                                                         @level0type = N'SCHEMA',
                                                         @level0name = N'dbo',
@@ -1555,7 +1555,7 @@ var dk = {
                                                         @level2type = N'COLUMN',
                                                         @level2name = N'{dataColumnName}';
 
-                    EXEC sp_updateextendedproperty @name = N'MS_Description',
+                EXEC sp_updateextendedproperty @name = N'MS_Description',
                                                     @value = N'{comment}',
                                                     @level0type = N'SCHEMA',
                                                     @level0name = N'dbo',
@@ -1595,23 +1595,21 @@ var dk = {
                 var page = Number(dk.pars.page) || 1;
 
                 var cmd = `
-                    select
-                        *
+                select
+                    *
                     from(
                         select
                             row_number() over(
-                            order by
-                                ` + sort + ` ` + order + `
-                            ) as NumId,` + listFieldName + `
-                        from
-                            ` + TableName + ` ` + whereSql + `
-                        ) as t
-                    where
-                        NumId between ` + ((page - 1) * rows + 1) + ` and ` + (page * rows);
+                            order by ${sort} ${order}
+                        ) as NumId, ${listFieldName}
+                        from ${TableName} ${whereSql}
+                    ) as t
+                where
+                NumId between ${(page - 1) * rows + 1} and ${page * rows}`;
 
                 var cmds = [];
                 cmds.push(cmd);
-                cmds.push(`select count(1) as total from ` + TableName + ` ` + whereSql);
+                cmds.push(`select count(1) as total from ${TableName} ${whereSql}`);
 
                 return this.QueryData(dk, cmds);
             },
@@ -1625,17 +1623,17 @@ var dk = {
                 var mo = dk.model.dkDEI();
 
                 var cmds = `
-                        SELECT SUBSTRING(@@VERSION , 1, CHARINDEX(')', @@VERSION, 1))+ ' ' + cast(SERVERPROPERTY('Edition') as varchar) AS DeiName ,
-	                        SERVERPROPERTY('ProductVersion') AS DeiVersion,	
-	                        SERVERPROPERTY('InstanceDefaultDataPath') AS DeiDirData,
-	                        SERVERPROPERTY('Collation') AS DeiCharSet,
-	                        GETDATE() as DeiDateTime,
+                SELECT SUBSTRING(@@VERSION , 1, CHARINDEX(')', @@VERSION, 1)) + ' ' + cast(SERVERPROPERTY('Edition') as varchar) AS DeiName,
+                    SERVERPROPERTY('ProductVersion') AS DeiVersion,
+                        SERVERPROPERTY('InstanceDefaultDataPath') AS DeiDirData,
+                            SERVERPROPERTY('Collation') AS DeiCharSet,
+                                GETDATE() as DeiDateTime,
 	                        @@MAX_CONNECTIONS AS DeiMaxConn,
-	                        DeiCurrConn=(SELECT COUNT(dbid) from sys.sysprocesses),
-                            DeiIgnoreCase =(CASE WHEN 'a' = 'A' THEN 1 ELSE 0 END),
-                            REPLACE(SUBSTRING(@@VERSION , CHARINDEX(' on ', @@VERSION, 0)+ 4, LEN(@@VERSION)-CHARINDEX(' on ', @@VERSION, 1)), CHAR(10), '') AS DeiSystem
-                        ;EXEC sp_configure 'remote query timeout'
-                        ;EXEC master.dbo.xp_instance_regread N'HKEY_LOCAL_MACHINE',N'SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation',N'TimeZoneKeyName'`.split(';');
+                    DeiCurrConn = (SELECT COUNT(dbid) from sys.sysprocesses),
+                DeiIgnoreCase = (CASE WHEN 'a' = 'A' THEN 1 ELSE 0 END),
+                REPLACE(SUBSTRING(@@VERSION , CHARINDEX(' on ', @@VERSION, 0) + 4, LEN(@@VERSION) -CHARINDEX(' on ', @@VERSION, 1)), CHAR(10), '') AS DeiSystem
+                    ; EXEC sp_configure 'remote query timeout'
+                    ; EXEC master.dbo.xp_instance_regread N'HKEY_LOCAL_MACHINE', N'SYSTEM\\CurrentControlSet\\Control\\TimeZoneInformation', N'TimeZoneKeyName'`.split(';');
 
                 return this.Querys(dk, cmds).then(results => {
 
@@ -1668,6 +1666,7 @@ var dk = {
             code: 0,
             msg: null,
             data: null,
+            log: [],
             useTime: null
         };
         var st = Date.now();

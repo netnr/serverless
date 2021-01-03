@@ -105,7 +105,6 @@ module.exports = (req, res) => {
             break;
         case "POST":
             new multiparty.Form().parse(req, (err, fields, files) => {
-                console.log(arguments)
 
                 let file = (files.file || {})[0];
                 let url = fields.url.pop();

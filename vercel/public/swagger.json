@@ -10,7 +10,7 @@
         "tags": [
           "AI"
         ],
-        "summary": "OCR 通用文字识别（百度接口，50000次/天免费，用自己申请的授权信息更稳定不受限制）",
+        "summary": "OCR 通用文字识别(百度接口,50000次/天免费,用自己申请的授权信息更稳定不受限制)",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -71,17 +71,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -89,45 +89,65 @@
         }
       }
     },
-    "/analysis/{lang}": {
+    "/analysis": {
       "get": {
         "tags": [
           "AI"
         ],
-        "summary": "内容分词解析（nodejieba 组件）",
+        "summary": "内容分词解析(nodejieba 组件)",
         "parameters": [
           {
             "name": "lang",
+            "in": "query",
             "description": "语言，默认 zh-cn",
-            "in": "path",
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "语言，默认 zh-cn",
+              "nullable": true
             }
           },
           {
             "name": "ctype",
             "in": "query",
             "description": "命令类型，0：分词（默认，可不传）；1：关键词",
-            "default": "0",
             "schema": {
-              "type": "integer"
-            },
-            "nullable": false
+              "type": "integer",
+              "description": "命令类型，0：分词（默认，可不传）；1：关键词",
+              "format": "int32"
+            }
           },
           {
             "name": "content",
             "in": "query",
             "description": "内容",
-            "default": "结过婚的和尚未结过婚的",
             "schema": {
-              "type": "string"
-            },
-            "nullable": false
+              "type": "string",
+              "description": "内容",
+              "default": "结过婚的和尚未结过婚的",
+              "nullable": true
+            }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              }
+            }
           }
         }
       }
@@ -141,10 +161,13 @@
         "parameters": [
           {
             "name": "package",
-            "description": "NuGet 发布包名",
             "in": "path",
+            "description": "NuGet 发布包名",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "NuGet 发布包名",
+              "nullable": true
             }
           }
         ],
@@ -164,10 +187,13 @@
         "parameters": [
           {
             "name": "package",
-            "description": "NPM 发布包名",
             "in": "path",
+            "description": "NuGet 发布包名",
+            "required": true,
             "schema": {
-              "type": "string"
+              "type": "string",
+              "description": "NuGet 发布包名",
+              "nullable": true
             }
           }
         ],
@@ -183,24 +209,24 @@
         "tags": [
           "Bed"
         ],
-        "summary": "聚合图床（获取存储商列表）",
+        "summary": "聚合图床(获取存储商列表)",
         "responses": {
           "200": {
             "description": "Success",
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -211,7 +237,7 @@
         "tags": [
           "Bed"
         ],
-        "summary": "聚合图床（上传）",
+        "summary": "聚合图床(上传)",
         "requestBody": {
           "content": {
             "multipart/form-data": {
@@ -221,17 +247,18 @@
                   "url": {
                     "type": "string",
                     "description": "存储商接口URL",
-                    "format": "string"
+                    "nullable": true
                   },
                   "file": {
                     "type": "string",
-                    "description": "图片文件",
-                    "format": "binary"
+                    "description": "文件",
+                    "format": "binary",
+                    "nullable": true
                   }
                 }
               },
               "encoding": {
-                "vendor": {
+                "url": {
                   "style": "form"
                 },
                 "file": {
@@ -247,17 +274,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -265,98 +292,91 @@
         }
       }
     },
-    "/captcha/{count}": {
+    "/cmd": {
+      "post": {
+        "tags": [
+          "Cmd"
+        ],
+        "summary": "执行命令",
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "cmd": {
+                    "type": "string",
+                    "description": "命令",
+                    "nullable": true
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "内容",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "cmd": {
+                  "style": "form"
+                },
+                "content": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/clock": {
       "get": {
         "tags": [
           "Common"
         ],
-        "summary": "生成SVG验证码，默认返回一条",
-        "parameters": [
-          {
-            "name": "count",
-            "in": "path",
-            "description": "自定义条数（限制1-99，1条为 Object，多条为 Array）",
-            "schema": {
-              "type": "integer",
-              "nullable": true
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "验证码长度，默认4位",
-            "schema": {
-              "type": "integer",
-              "nullable": true
-            }
-          },
-          {
-            "name": "ignoreChars",
-            "in": "query",
-            "description": "验证码字符中排除，如：0o1i",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            }
-          },
-          {
-            "name": "noise",
-            "in": "query",
-            "description": "干扰线条的数量，默认1",
-            "schema": {
-              "type": "integer",
-              "nullable": true
-            }
-          },
-          {
-            "name": "color",
-            "in": "query",
-            "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
-            "schema": {
-              "type": "boolean",
-              "nullable": true
-            }
-          },
-          {
-            "name": "background",
-            "in": "query",
-            "description": "验证码图片背景颜色",
-            "schema": {
-              "type": "string",
-              "nullable": true
-            }
-          },
-          {
-            "name": "width",
-            "in": "query",
-            "description": "验证码宽，默认150",
-            "schema": {
-              "type": "integer",
-              "nullable": true
-            }
-          },
-          {
-            "name": "height",
-            "in": "query",
-            "description": "验证码高，默认50",
-            "schema": {
-              "type": "integer",
-              "nullable": true
-            }
-          },
-          {
-            "name": "fontSize",
-            "in": "query",
-            "description": "验证码字体大小",
-            "schema": {
-              "type": "integer",
-              "nullable": true
-            }
-          }
-        ],
+        "summary": "获取时钟(UTC),默认东8区,中国,自定义时区:东1~12区、西-1~-12区",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockResult"
+                }
+              }
+            }
           }
         }
       }
@@ -366,21 +386,40 @@
         "tags": [
           "Common"
         ],
-        "summary": "获取时钟（UTC），默认东8区，中国，自定义时区：东1~12区、西-1~-12区",
+        "summary": "获取时钟(UTC),默认东8区,中国,自定义时区:东1~12区、西-1~-12区",
         "parameters": [
           {
             "name": "timezone",
-            "description": "东1 ~ 12区、西-1 ~ -12区",
             "in": "path",
+            "description": "东1 ~ 12区、西-1 ~ -12区",
+            "required": true,
             "schema": {
               "type": "integer",
-              "nullable": true
+              "description": "东1 ~ 12区、西-1 ~ -12区",
+              "format": "int32"
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ClockResult"
+                }
+              }
+            }
           }
         }
       }
@@ -393,7 +432,24 @@
         "summary": "获取IP",
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
           }
         }
       }
@@ -412,7 +468,8 @@
                 "properties": {
                   "content": {
                     "type": "string",
-                    "description": "CSS内容"
+                    "description": "CSS内容",
+                    "nullable": true
                   },
                   "options": {
                     "type": "string",
@@ -438,20 +495,33 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
+          }
+        }
+      }
+    },
+    "/svg": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "生成占位图,默认200x200",
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -461,14 +531,16 @@
         "tags": [
           "Common"
         ],
-        "summary": "生成占位图，默认200×200",
+        "summary": "生成占位图,默认200x200",
         "parameters": [
           {
             "name": "wh",
             "in": "path",
-            "description": "自定义宽高，如 500*500",
+            "description": "自定义宽高，如 500x309",
+            "required": true,
             "schema": {
               "type": "string",
+              "description": "自定义宽高，如 500x309",
               "nullable": true
             }
           }
@@ -480,26 +552,336 @@
         }
       }
     },
-    "/uuid/{count}": {
+    "/captcha": {
       "get": {
         "tags": [
           "Common"
         ],
-        "summary": "生成UUID，默认返回一条",
+        "summary": "生成SVG验证码,默认返回一条",
         "parameters": [
           {
-            "name": "count",
-            "in": "path",
-            "description": "自定义条数（限制1-99，1条为字符串，多条为数组JSON）",
+            "name": "size",
+            "in": "query",
+            "description": "验证码长度，默认4位",
             "schema": {
               "type": "integer",
+              "description": "验证码长度，默认4位",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "ignoreChars",
+            "in": "query",
+            "description": "验证码字符中排除，如：0o1i",
+            "schema": {
+              "type": "string",
+              "description": "验证码字符中排除，如：0o1i",
+              "nullable": true
+            }
+          },
+          {
+            "name": "noise",
+            "in": "query",
+            "description": "干扰线条的数量，默认1",
+            "schema": {
+              "type": "integer",
+              "description": "干扰线条的数量，默认1",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
+            "schema": {
+              "type": "boolean",
+              "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有"
+            }
+          },
+          {
+            "name": "background",
+            "in": "query",
+            "description": "验证码图片背景颜色",
+            "schema": {
+              "type": "string",
+              "description": "验证码图片背景颜色",
+              "nullable": true
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "description": "验证码宽，默认150",
+            "schema": {
+              "type": "integer",
+              "description": "验证码宽，默认150",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "description": "验证码高，默认50",
+            "schema": {
+              "type": "integer",
+              "description": "验证码高，默认50",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "fontSize",
+            "in": "query",
+            "description": "验证码字体大小",
+            "schema": {
+              "type": "integer",
+              "description": "验证码字体大小",
+              "format": "int32",
               "nullable": true
             }
           }
         ],
         "responses": {
           "200": {
-            "description": "Success"
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptchaResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptchaResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/CaptchaResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/captcha/{count}": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "生成SVG验证码,默认返回一条",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "path",
+            "description": "自定义条数（限制1-99，1条为 Object，多条为 Array）",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "自定义条数（限制1-99，1条为 Object，多条为 Array）",
+              "format": "int32"
+            }
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "description": "验证码长度，默认4位",
+            "schema": {
+              "type": "integer",
+              "description": "验证码长度，默认4位",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "ignoreChars",
+            "in": "query",
+            "description": "验证码字符中排除，如：0o1i",
+            "schema": {
+              "type": "string",
+              "description": "验证码字符中排除，如：0o1i",
+              "nullable": true
+            }
+          },
+          {
+            "name": "noise",
+            "in": "query",
+            "description": "干扰线条的数量，默认1",
+            "schema": {
+              "type": "integer",
+              "description": "干扰线条的数量，默认1",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "color",
+            "in": "query",
+            "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
+            "schema": {
+              "type": "boolean",
+              "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有"
+            }
+          },
+          {
+            "name": "background",
+            "in": "query",
+            "description": "验证码图片背景颜色",
+            "schema": {
+              "type": "string",
+              "description": "验证码图片背景颜色",
+              "nullable": true
+            }
+          },
+          {
+            "name": "width",
+            "in": "query",
+            "description": "验证码宽，默认150",
+            "schema": {
+              "type": "integer",
+              "description": "验证码宽，默认150",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "height",
+            "in": "query",
+            "description": "验证码高，默认50",
+            "schema": {
+              "type": "integer",
+              "description": "验证码高，默认50",
+              "format": "int32",
+              "nullable": true
+            }
+          },
+          {
+            "name": "fontSize",
+            "in": "query",
+            "description": "验证码字体大小",
+            "schema": {
+              "type": "integer",
+              "description": "验证码字体大小",
+              "format": "int32",
+              "nullable": true
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaptchaResult"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaptchaResult"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/CaptchaResult"
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/uuid": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "生成UUID,默认返回一条",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "string"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/uuid/{count}": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "生成UUID,默认返回一条",
+        "parameters": [
+          {
+            "name": "count",
+            "in": "path",
+            "description": "自定义条数（限制1-99，1条为字符串，多条为数组JSON）",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "description": "自定义条数（限制1-99，1条为字符串，多条为数组JSON）",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
           }
         }
       }
@@ -536,17 +918,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -562,7 +944,7 @@
         "summary": "获取所有列",
         "requestBody": {
           "content": {
-            "multipart/form-data": {
+            "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
@@ -602,17 +984,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -672,17 +1054,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -752,17 +1134,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -872,17 +1254,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -922,17 +1304,17 @@
             "content": {
               "text/plain": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               },
               "text/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/ActionResultVM"
+                  "$ref": "#/components/schemas/PublicResult"
                 }
               }
             }
@@ -943,19 +1325,7 @@
   },
   "components": {
     "schemas": {
-      "TypeDB": {
-        "enum": [
-          0,
-          1,
-          2,
-          3,
-          4,
-          5
-        ],
-        "type": "integer",
-        "format": "int32"
-      },
-      "ActionResultVM": {
+      "PublicResult": {
         "type": "object",
         "properties": {
           "code": {
@@ -967,40 +1337,102 @@
             "nullable": true
           },
           "data": {
-            "type": "object",
-            "additionalProperties": false,
             "nullable": true
-          },
-          "useTime": {
-            "type": "number",
-            "format": "double",
-            "readOnly": true
           }
         },
         "additionalProperties": false
+      },
+      "ClockResult": {
+        "type": "object",
+        "properties": {
+          "week_number": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "utc_datetime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "unixtime": {
+            "type": "integer",
+            "format": "int64"
+          },
+          "day_of_year": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "day_of_week": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "datetime": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "time_zone": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "client_ip": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "CaptchaResult": {
+        "type": "object",
+        "properties": {
+          "text": {
+            "type": "string",
+            "nullable": true
+          },
+          "data": {
+            "type": "string",
+            "nullable": true
+          }
+        },
+        "additionalProperties": false
+      },
+      "TypeDB": {
+        "enum": [
+          0,
+          1,
+          2,
+          3,
+          4,
+          5
+        ],
+        "type": "integer",
+        "description": "数据库类型",
+        "format": "int32"
       }
     }
   },
   "tags": [
     {
-      "name": "Common",
-      "description": "常用"
-    },
-    {
       "name": "AI",
-      "description": "人工智能"
+      "description": "AI 人工智能"
     },
     {
       "name": "Badge",
-      "description": "徽章"
+      "description": "Badge 徽章"
     },
     {
       "name": "Bed",
-      "description": "图床"
+      "description": "Bed 图床"
+    },
+    {
+      "name": "Cmd",
+      "description": "Cmd 命令"
+    },
+    {
+      "name": "Common",
+      "description": "Common 常用"
     },
     {
       "name": "DK",
-      "description": "Netnr.DataKit API"
+      "description": "DK Netnr.DataKit API"
     }
   ]
 }
