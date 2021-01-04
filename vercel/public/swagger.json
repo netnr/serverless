@@ -162,11 +162,11 @@
           {
             "name": "package",
             "in": "path",
-            "description": "NuGet 发布包名",
+            "description": "发布包名",
             "required": true,
             "schema": {
               "type": "string",
-              "description": "NuGet 发布包名",
+              "description": "发布包名",
               "nullable": true
             }
           }
@@ -188,11 +188,11 @@
           {
             "name": "package",
             "in": "path",
-            "description": "NuGet 发布包名",
+            "description": "发布包名",
             "required": true,
             "schema": {
               "type": "string",
-              "description": "NuGet 发布包名",
+              "description": "发布包名",
               "nullable": true
             }
           }

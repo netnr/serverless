@@ -11,11 +11,6 @@ module.exports = (req, res) => {
     switch (pcmd) {
         case "openssl":
             {
-                if (!(pars.cmd.indexOf("-in @") >= 0 && pars.cmd.indexOf("-out @") >= 0)) {
-                    vm.msg = "Illegal format";
-                    res.json(vm);
-                    return;
-                }
                 let outfile;
                 pars.cmd.replace(/\@out.\w+/, function (a) {
                     outfile = a;
@@ -25,24 +20,33 @@ module.exports = (req, res) => {
                 let tf2 = "_openssl_";
                 let tmpfolder = tf1 + tf2 + Date.now() + "_" + Math.random().toString().substr(2, 4);
                 fs.mkdirSync(tmpfolder);
+
                 if (pars.content && pars.content != "") {
                     pars.content = JSON.parse(pars.content);
                     for (const fk in pars.content) {
-                        const fc = pars.content[fk];
-                        fs.writeFileSync(tmpfolder + '/' + fk, fc);
+                        let fc = pars.content[fk];
+                        if (fc.includes(";base64,")) {
+                            fc = fc.split(';base64,').pop();
+                        }
+                        fs.writeFileSync(tmpfolder + '/' + fk, Buffer.from(fc, 'base64'));
                     }
                 }
+
                 let ecmd = `cd ${tmpfolder} && ${pars.cmd}`;
-                exec(ecmd, function (err) {
+                exec(ecmd, function (err, data) {
                     if (err) {
                         vm.msg = err + "";
+                        res.json(vm);
                     } else {
-                        let odata = fs.readFileSync(tmpfolder + "/" + outfile);
+                        vm.msg = data;
                         vm.code = 200;
-                        vm.data = {
-                            name: outfile,
-                            content: odata.toString('base64')
-                        };
+                        if (outfile) {
+                            let odata = fs.readFileSync(tmpfolder + "/" + outfile);
+                            vm.data = {
+                                name: outfile,
+                                content: odata.toString('base64')
+                            };
+                        }
                         fs.readdirSync(tf1).forEach(fi => {
                             if (fi.startsWith(tf2) && Date.now() - fi.split('_')[2] > 30000) {
                                 exec("rm -r " + tf1 + fi)

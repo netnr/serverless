@@ -32,14 +32,14 @@ module.exports = (req, res) => {
 
                             vm.data = jb.extract(content, topn);
                             vm.code = 200;
-                            res.send(vn);
+                            res.send(vm);
                         }
                         break;
                     //分词
                     default:
                         vm.data = jb.cut(content);
                         vm.code = 200;
-                        res.send(vn);
+                        res.send(vm);
                 }
             }
             break;
