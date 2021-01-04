@@ -90,44 +90,49 @@
       }
     },
     "/analysis": {
-      "get": {
+      "post": {
         "tags": [
           "AI"
         ],
         "summary": "内容分词解析(nodejieba 组件)",
-        "parameters": [
-          {
-            "name": "lang",
-            "in": "query",
-            "description": "语言，默认 zh-cn",
-            "schema": {
-              "type": "string",
-              "description": "语言，默认 zh-cn",
-              "nullable": true
-            }
-          },
-          {
-            "name": "ctype",
-            "in": "query",
-            "description": "命令类型，0：分词（默认，可不传）；1：关键词",
-            "schema": {
-              "type": "integer",
-              "description": "命令类型，0：分词（默认，可不传）；1：关键词",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "content",
-            "in": "query",
-            "description": "内容",
-            "schema": {
-              "type": "string",
-              "description": "内容",
-              "default": "结过婚的和尚未结过婚的",
-              "nullable": true
+        "requestBody": {
+          "content": {
+            "application/x-www-form-urlencoded": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "lang": {
+                    "type": "string",
+                    "description": "语言，默认 zh-cn",
+                    "nullable": true
+                  },
+                  "ctype": {
+                    "type": "integer",
+                    "description": "命令类型，0：分词（默认，可不传）；1：关键词",
+                    "format": "int32"
+                  },
+                  "content": {
+                    "type": "string",
+                    "description": "内容",
+                    "default": "结过婚的和尚未结过婚的",
+                    "nullable": true
+                  }
+                }
+              },
+              "encoding": {
+                "lang": {
+                  "style": "form"
+                },
+                "ctype": {
+                  "style": "form"
+                },
+                "content": {
+                  "style": "form"
+                }
+              }
             }
           }
-        ],
+        },
         "responses": {
           "200": {
             "description": "Success",
@@ -262,65 +267,6 @@
                   "style": "form"
                 },
                 "file": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/cmd": {
-      "post": {
-        "tags": [
-          "Cmd"
-        ],
-        "summary": "执行命令",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "cmd": {
-                    "type": "string",
-                    "description": "命令",
-                    "nullable": true
-                  },
-                  "content": {
-                    "type": "string",
-                    "description": "内容",
-                    "nullable": true
-                  }
-                }
-              },
-              "encoding": {
-                "cmd": {
-                  "style": "form"
-                },
-                "content": {
                   "style": "form"
                 }
               }
@@ -1421,10 +1367,6 @@
     {
       "name": "Bed",
       "description": "Bed 图床"
-    },
-    {
-      "name": "Cmd",
-      "description": "Cmd 命令"
     },
     {
       "name": "Common",
