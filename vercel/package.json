@@ -2,15 +2,14 @@
   "name": "netnr-serverless-vercel",
   "description": "Serverless vercel",
   "version": "1.0.0",
-  "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    
   },
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
     "baidu-aip-sdk": "^2.4.6",
-    "mssql": "^6.3.0",
+    "mssql": "^6.3.1",
     "multiparty": "^4.2.2",
     "mysql": "^2.18.1",
     "nodejieba": "^2.5.1",

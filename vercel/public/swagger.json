@@ -4,6 +4,11 @@
     "title": "API",
     "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a> &nbsp; 请求最大限制（包含文件）：<b>5MB</b>"
   },
+  "servers": [
+    {
+      "url": "https://localhost:44312"
+    }
+  ],
   "paths": {
     "/aip/ocr": {
       "post": {
@@ -19,29 +24,19 @@
                 "properties": {
                   "file": {
                     "type": "string",
-                    "description": "待识别的图片文件（二选一）",
-                    "format": "binary",
-                    "nullable": true
+                    "format": "binary"
                   },
                   "url": {
-                    "type": "string",
-                    "description": "远程图片地址（二选一）",
-                    "nullable": true
+                    "type": "string"
                   },
                   "APP_ID": {
-                    "type": "string",
-                    "description": "百度AI接口：APP_ID（可选，用自己申请的授权信息更稳定不受限制）",
-                    "nullable": true
+                    "type": "string"
                   },
                   "API_KEY": {
-                    "type": "string",
-                    "description": "百度AI接口：API_KEY（可选，用自己申请的授权信息更稳定不受限制）",
-                    "nullable": true
+                    "type": "string"
                   },
                   "SECRET_KEY": {
-                    "type": "string",
-                    "description": "百度AI接口：SECRET_KEY（可选，用自己申请的授权信息更稳定不受限制）",
-                    "nullable": true
+                    "type": "string"
                   }
                 }
               },
@@ -102,20 +97,15 @@
                 "type": "object",
                 "properties": {
                   "lang": {
-                    "type": "string",
-                    "description": "语言，默认 zh-cn",
-                    "nullable": true
+                    "type": "string"
                   },
                   "ctype": {
                     "type": "integer",
-                    "description": "命令类型，0：分词（默认，可不传）；1：关键词",
                     "format": "int32"
                   },
                   "content": {
                     "type": "string",
-                    "description": "内容",
-                    "default": "结过婚的和尚未结过婚的",
-                    "nullable": true
+                    "default": "结过婚的和尚未结过婚的"
                   }
                 }
               },
@@ -170,9 +160,7 @@
             "description": "发布包名",
             "required": true,
             "schema": {
-              "type": "string",
-              "description": "发布包名",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -196,9 +184,7 @@
             "description": "发布包名",
             "required": true,
             "schema": {
-              "type": "string",
-              "description": "发布包名",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -250,15 +236,11 @@
                 "type": "object",
                 "properties": {
                   "url": {
-                    "type": "string",
-                    "description": "存储商接口URL",
-                    "nullable": true
+                    "type": "string"
                   },
                   "file": {
                     "type": "string",
-                    "description": "文件",
-                    "format": "binary",
-                    "nullable": true
+                    "format": "binary"
                   }
                 }
               },
@@ -341,7 +323,6 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "description": "东1 ~ 12区、西-1 ~ -12区",
               "format": "int32"
             }
           }
@@ -413,14 +394,10 @@
                 "type": "object",
                 "properties": {
                   "content": {
-                    "type": "string",
-                    "description": "CSS内容",
-                    "nullable": true
+                    "type": "string"
                   },
                   "options": {
-                    "type": "string",
-                    "description": "自定义配置，JSON配置字符串，参考：https://github.com/fmarcia/UglifyCSS",
-                    "nullable": true
+                    "type": "string"
                   }
                 }
               },
@@ -485,9 +462,7 @@
             "description": "自定义宽高，如 500x309",
             "required": true,
             "schema": {
-              "type": "string",
-              "description": "自定义宽高，如 500x309",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -511,9 +486,7 @@
             "description": "验证码长度，默认4位",
             "schema": {
               "type": "integer",
-              "description": "验证码长度，默认4位",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -521,9 +494,7 @@
             "in": "query",
             "description": "验证码字符中排除，如：0o1i",
             "schema": {
-              "type": "string",
-              "description": "验证码字符中排除，如：0o1i",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -532,9 +503,7 @@
             "description": "干扰线条的数量，默认1",
             "schema": {
               "type": "integer",
-              "description": "干扰线条的数量，默认1",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -542,8 +511,7 @@
             "in": "query",
             "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
             "schema": {
-              "type": "boolean",
-              "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有"
+              "type": "boolean"
             }
           },
           {
@@ -551,9 +519,7 @@
             "in": "query",
             "description": "验证码图片背景颜色",
             "schema": {
-              "type": "string",
-              "description": "验证码图片背景颜色",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -562,9 +528,7 @@
             "description": "验证码宽，默认150",
             "schema": {
               "type": "integer",
-              "description": "验证码宽，默认150",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -573,9 +537,7 @@
             "description": "验证码高，默认50",
             "schema": {
               "type": "integer",
-              "description": "验证码高，默认50",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -584,9 +546,7 @@
             "description": "验证码字体大小",
             "schema": {
               "type": "integer",
-              "description": "验证码字体大小",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           }
         ],
@@ -628,7 +588,6 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "description": "自定义条数（限制1-99，1条为 Object，多条为 Array）",
               "format": "int32"
             }
           },
@@ -638,9 +597,7 @@
             "description": "验证码长度，默认4位",
             "schema": {
               "type": "integer",
-              "description": "验证码长度，默认4位",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -648,9 +605,7 @@
             "in": "query",
             "description": "验证码字符中排除，如：0o1i",
             "schema": {
-              "type": "string",
-              "description": "验证码字符中排除，如：0o1i",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -659,9 +614,7 @@
             "description": "干扰线条的数量，默认1",
             "schema": {
               "type": "integer",
-              "description": "干扰线条的数量，默认1",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -669,8 +622,7 @@
             "in": "query",
             "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
             "schema": {
-              "type": "boolean",
-              "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有"
+              "type": "boolean"
             }
           },
           {
@@ -678,9 +630,7 @@
             "in": "query",
             "description": "验证码图片背景颜色",
             "schema": {
-              "type": "string",
-              "description": "验证码图片背景颜色",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -689,9 +639,7 @@
             "description": "验证码宽，默认150",
             "schema": {
               "type": "integer",
-              "description": "验证码宽，默认150",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -700,9 +648,7 @@
             "description": "验证码高，默认50",
             "schema": {
               "type": "integer",
-              "description": "验证码高，默认50",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           },
           {
@@ -711,9 +657,7 @@
             "description": "验证码字体大小",
             "schema": {
               "type": "integer",
-              "description": "验证码字体大小",
-              "format": "int32",
-              "nullable": true
+              "format": "int32"
             }
           }
         ],
@@ -794,7 +738,6 @@
             "required": true,
             "schema": {
               "type": "integer",
-              "description": "自定义条数（限制1-99，1条为字符串，多条为数组JSON）",
               "format": "int32"
             }
           }
@@ -852,9 +795,7 @@
             "in": "query",
             "description": "连接字符串",
             "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -898,15 +839,11 @@
                     "$ref": "#/components/schemas/TypeDB"
                   },
                   "conn": {
-                    "type": "string",
-                    "description": "连接字符串",
-                    "nullable": true
+                    "type": "string"
                   },
                   "filterTableName": {
                     "type": "string",
-                    "description": "过滤表名，英文逗号分隔，为空时默认所有表",
-                    "default": "",
-                    "nullable": true
+                    "default": ""
                   }
                 }
               },
@@ -968,9 +905,7 @@
             "in": "query",
             "description": "连接字符串",
             "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -978,9 +913,7 @@
             "in": "query",
             "description": "表名",
             "schema": {
-              "type": "string",
-              "description": "表名",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -988,9 +921,7 @@
             "in": "query",
             "description": "表注释",
             "schema": {
-              "type": "string",
-              "description": "表注释",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -1038,9 +969,7 @@
             "in": "query",
             "description": "连接字符串",
             "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1048,9 +977,7 @@
             "in": "query",
             "description": "表名",
             "schema": {
-              "type": "string",
-              "description": "表名",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1058,9 +985,7 @@
             "in": "query",
             "description": "列名",
             "schema": {
-              "type": "string",
-              "description": "列名",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1068,9 +993,7 @@
             "in": "query",
             "description": "列注释",
             "schema": {
-              "type": "string",
-              "description": "列注释",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -1118,9 +1041,7 @@
             "in": "query",
             "description": "连接字符串",
             "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1128,9 +1049,7 @@
             "in": "query",
             "description": "表名",
             "schema": {
-              "type": "string",
-              "description": "表名",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1139,7 +1058,6 @@
             "description": "页码",
             "schema": {
               "type": "integer",
-              "description": "页码",
               "format": "int32"
             }
           },
@@ -1149,7 +1067,6 @@
             "description": "页量",
             "schema": {
               "type": "integer",
-              "description": "页量",
               "format": "int32"
             }
           },
@@ -1158,9 +1075,7 @@
             "in": "query",
             "description": "排序字段",
             "schema": {
-              "type": "string",
-              "description": "排序字段",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1168,9 +1083,7 @@
             "in": "query",
             "description": "排序方式",
             "schema": {
-              "type": "string",
-              "description": "排序方式",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1178,9 +1091,7 @@
             "in": "query",
             "description": "查询列，默认为 *",
             "schema": {
-              "type": "string",
-              "description": "查询列，默认为 *",
-              "nullable": true
+              "type": "string"
             }
           },
           {
@@ -1188,9 +1099,7 @@
             "in": "query",
             "description": "条件",
             "schema": {
-              "type": "string",
-              "description": "条件",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -1238,9 +1147,7 @@
             "in": "query",
             "description": "连接字符串",
             "schema": {
-              "type": "string",
-              "description": "连接字符串",
-              "nullable": true
+              "type": "string"
             }
           }
         ],
@@ -1271,18 +1178,15 @@
   },
   "components": {
     "schemas": {
-      "PublicResult": {
+      "CaptchaResult": {
         "type": "object",
         "properties": {
-          "code": {
-            "type": "integer",
-            "format": "int32"
-          },
-          "msg": {
+          "text": {
             "type": "string",
             "nullable": true
           },
           "data": {
+            "type": "string",
             "nullable": true
           }
         },
@@ -1326,15 +1230,18 @@
         },
         "additionalProperties": false
       },
-      "CaptchaResult": {
+      "PublicResult": {
         "type": "object",
         "properties": {
-          "text": {
+          "code": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "msg": {
             "type": "string",
             "nullable": true
           },
           "data": {
-            "type": "string",
             "nullable": true
           }
         },
