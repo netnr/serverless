@@ -4,11 +4,6 @@
     "title": "API",
     "description": "<b>Source</b>：<a target='_blank' href='https://github.com/netnr/serverless'>https://github.com/netnr/serverless</a> &nbsp; <b>Blog</b>：<a target='_blank' href='https://www.netnr.com'>https://www.netnr.com</a> &nbsp; 请求最大限制（包含文件）：<b>5MB</b>"
   },
-  "servers": [
-    {
-      "url": "https://localhost:44312"
-    }
-  ],
   "paths": {
     "/aip/ocr": {
       "post": {

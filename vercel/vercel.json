@@ -79,12 +79,6 @@
     },
 
     {
-      "src": "/cmd(.*)",
-      "dest": "/api/cmd.js",
-      "continue": true
-    },
-
-    {
       "src": "/svg(.*)",
       "dest": "/api/svg.js",
       "continue": true
