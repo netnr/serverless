@@ -2,19 +2,13 @@
   "name": "netnr-serverless-vercel",
   "description": "Serverless vercel",
   "version": "1.0.0",
-  "scripts": {
-    
-  },
+  "scripts": {},
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
     "baidu-aip-sdk": "^2.4.6",
-    "mssql": "^6.3.1",
     "multiparty": "^4.2.2",
-    "mysql": "^2.18.1",
     "nodejieba": "^2.5.1",
-    "oracledb": "4.2.0",
-    "pg": "^8.5.1",
     "svg-captcha": "^1.4.0",
     "uglifycss": "^0.0.29",
     "uuid": "^8.3.2"

@@ -1,12 +1,6 @@
 {
   "version": 2,
 
-  "functions": {
-    "api/dk.js": {
-      "includeFiles": "public/*"
-    }
-  },
-
   "routes": [
 
     {
@@ -52,17 +46,6 @@
     {
       "src": "/clock(.*)",
       "dest": "/api/clock.js",
-      "continue": true
-    },
-
-    {
-      "src": "/DK/(.*)",
-      "dest": "/api/dk.js",
-      "continue": true
-    },
-    {
-      "src": "/dk/(.*)",
-      "dest": "/api/dk.js",
       "continue": true
     },
 

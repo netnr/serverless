@@ -49,51 +49,6 @@ module.exports = (req, res) => {
                 }
                 return data;
             }
-        },
-        {
-            url: "https://mp.toutiao.com/upload_photo/?type=json",
-            name: "字节（头条）",
-            maxSize: 1024 * 1024 * 7,
-            accept: "image/*",
-            method: "POST",
-            field: "photo",
-            dataHandle: function (data) {
-                data = JSON.parse(data);
-                if (data.web_url) {
-                    data = { url: data.web_url };
-                }
-                return data;
-            }
-        },
-        {
-            url: "https://www.wukong.com/wenda/web/upload/photo/",
-            name: "字节（悟空）",
-            maxSize: 1024 * 1024 * 7,
-            accept: "image/*",
-            method: "POST",
-            field: "upfile",
-            dataHandle: function (data) {
-                data = JSON.parse(data);
-                if (data.url) {
-                    data = { url: data.url.replace("http://", "https://") };
-                }
-                return data;
-            }
-        },
-        {
-            url: "https://qiye.mi.com/index/upload",
-            name: "小米",
-            maxSize: 1024 * 1024 * 5,
-            accept: "image/*",
-            method: "POST",
-            field: "uploadImg",
-            dataHandle: function (data) {
-                data = JSON.parse(data);
-                if (data.code == 0 && data.data) {
-                    data = { url: data.data.key };
-                }
-                return data;
-            }
         }
     ];
 
