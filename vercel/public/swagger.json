@@ -376,61 +376,6 @@
         }
       }
     },
-    "/minify/css": {
-      "post": {
-        "tags": [
-          "Common"
-        ],
-        "summary": "CSS压缩",
-        "requestBody": {
-          "content": {
-            "application/x-www-form-urlencoded": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "content": {
-                    "type": "string"
-                  },
-                  "options": {
-                    "type": "string"
-                  }
-                }
-              },
-              "encoding": {
-                "content": {
-                  "style": "form"
-                },
-                "options": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/svg": {
       "get": {
         "tags": [

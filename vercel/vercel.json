@@ -56,12 +56,6 @@
     },
 
     {
-      "src": "/minify(.*)",
-      "dest": "/api/minify.js",
-      "continue": true
-    },
-
-    {
       "src": "/svg(.*)",
       "dest": "/api/svg.js",
       "continue": true

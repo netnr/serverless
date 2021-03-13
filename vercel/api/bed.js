@@ -6,21 +6,6 @@ module.exports = (req, res) => {
     let vm = { code: 0, msg: "", data: null };
     let bedVendor = [
         {
-            url: "https://bit.baidu.com/upload/fileUpload",
-            name: "百度（技术学院）",
-            maxSize: 1024 * 1024 * 3,
-            accept: "*",
-            method: "POST",
-            field: "file",
-            dataHandle: function (data) {
-                data = JSON.parse(data);
-                if (data.status == "SUCCESS" && data.data) {
-                    data = { url: "https://bit-images.bj.bcebos.com/bit-new/" + data.data };
-                }
-                return data;
-            }
-        },
-        {
             url: "https://iask.sina.com.cn/question/ajax/fileupload",
             name: "新浪（爱问）",
             maxSize: 1024 * 1024 * 1,
