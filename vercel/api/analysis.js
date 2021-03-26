@@ -15,33 +15,35 @@ module.exports = (req, res) => {
 
     if (content == null || content == "") {
         vm.msg = "content is empty";
+
         res.json(vm);
-        return;
-    }
+    } else {
+        switch (lang) {
+            case "zh-cn":
+                {
+                    switch (ctype * 1) {
+                        //关键词
+                        case 1:
+                            {
+                                //取多少个词
+                                let topn = parseInt(pars.topn);
+                                topn = isNaN(topn) ? 10 : topn;
 
-    switch (lang) {
-        case "zh-cn":
-            {
-                switch (ctype * 1) {
-                    //关键词
-                    case 1:
-                        {
-                            //取多少个词
-                            let topn = parseInt(pars.topn);
-                            topn = isNaN(topn) ? 10 : topn;
+                                vm.data = jb.extract(content, topn);
+                                vm.code = 200;
 
-                            vm.data = jb.extract(content, topn);
+                                res.send(vm);
+                            }
+                            break;
+                        //分词
+                        default:
+                            vm.data = jb.cut(content);
                             vm.code = 200;
+
                             res.send(vm);
-                        }
-                        break;
-                    //分词
-                    default:
-                        vm.data = jb.cut(content);
-                        vm.code = 200;
-                        res.send(vm);
+                    }
                 }
-            }
-            break;
+                break;
+        }
     }
 }

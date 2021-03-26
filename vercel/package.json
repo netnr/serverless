@@ -10,6 +10,7 @@
     "multiparty": "^4.2.2",
     "nodejieba": "^2.5.1",
     "svg-captcha": "^1.4.0",
+    "svgo": "^2.2.2",
     "uuid": "^8.3.2"
   },
   "repository": {

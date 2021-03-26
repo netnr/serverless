@@ -21,5 +21,6 @@ module.exports = (req, res) => {
 
     res.setHeader('content-type', 'image/svg+xml;charset=utf-8');
     res.setHeader('cache-control', 'public,max-age=300');
+    
     res.send(svg);
 }

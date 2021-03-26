@@ -413,6 +413,73 @@
         }
       }
     },
+    "/svgo": {
+      "post": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "svg优化",
+        "requestBody": {
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "svgFile": {
+                    "type": "array",
+                    "items": {
+                      "type": "string",
+                      "format": "binary"
+                    }
+                  },
+                  "svgJson": {
+                    "type": "string"
+                  },
+                  "merge": {
+                    "type": "integer",
+                    "format": "int32",
+                    "default": 0
+                  }
+                }
+              },
+              "encoding": {
+                "svgFile": {
+                  "style": "form"
+                },
+                "svgJson": {
+                  "style": "form"
+                },
+                "merge": {
+                  "style": "form"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/plain": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              },
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              },
+              "text/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/PublicResult"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
     "/captcha": {
       "get": {
         "tags": [

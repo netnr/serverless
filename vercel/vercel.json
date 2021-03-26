@@ -56,8 +56,19 @@
     },
 
     {
-      "src": "/svg(.*)",
+      "src": "/svg",
       "dest": "/api/svg.js",
+      "continue": true
+    },
+    {
+      "src": "/svg/(.*)",
+      "dest": "/api/svg.js",
+      "continue": true
+    },
+
+    {
+      "src": "/svgo",
+      "dest": "/api/svgo.js",
       "continue": true
     },
 

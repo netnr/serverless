@@ -4,13 +4,14 @@ const multiparty = require('multiparty');
 
 module.exports = (req, res) => {
     let vm = { code: 0, msg: "", data: null };
+    
     if (req.method === "POST") {
         new multiparty.Form().parse(req, (err, fields, files) => {
             // 设置APPID/AK/SK（取传参或环境变量）
             let APP_ID = (fields.APP_ID || {})[0] || process.env.cv_aip_APP_ID;
             let API_KEY = (fields.API_KEY || {})[0] || process.env.cv_aip_API_KEY;
             let SECRET_KEY = (fields.SECRET_KEY || {})[0] || process.env.cv_aip_SECRET_KEY;
-            console.log(APP_ID, API_KEY, SECRET_KEY)
+
             //动作
             let aipaction = req.url.split('/')[2];
             switch (aipaction) {
@@ -54,6 +55,7 @@ module.exports = (req, res) => {
         });
     } else {
         vm.msg = "Method not allowed. Send a POST request.";
+        
         res.json(vm);
     }
 }

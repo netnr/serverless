@@ -4,6 +4,7 @@ const multiparty = require('multiparty');
 
 module.exports = (req, res) => {
     let vm = { code: 0, msg: "", data: null };
+
     let bedVendor = [
         {
             url: "https://iask.sina.com.cn/question/ajax/fileupload",
@@ -41,6 +42,7 @@ module.exports = (req, res) => {
         case "GET":
             vm.code = 200;
             vm.data = bedVendor;
+            
             res.json(vm);
             break;
         case "POST":
@@ -58,6 +60,7 @@ module.exports = (req, res) => {
 
                 let fd = {};
                 fd[vendor.field] = fs.createReadStream(file.path);
+
                 request({
                     url: vendor.url,
                     method: vendor.method,
@@ -67,6 +70,7 @@ module.exports = (req, res) => {
                     if (!err && (vm.code = resp.statusCode) == 200) {
                         vm.data = vendor.dataHandle(resp.body)
                     }
+
                     res.json(vm);
                 });
             });

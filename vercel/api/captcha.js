@@ -8,12 +8,14 @@ module.exports = (req, res) => {
 
     if (ocount == 1) {
         let c = svgCaptcha.create(req.query);
+
         res.json(c);
     } else {
         while (ocount--) {
             let c = svgCaptcha.create(req.query);
             oarr.push(c)
         }
+        
         res.json(oarr);
     }
 }
