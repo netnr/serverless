@@ -38,13 +38,12 @@ module.exports = (req, res) => {
 
                 //合并
                 if (merge == 1) {
-                    result.data = result.data.replace('<svg ', `<symbol id="${result.path
-                        .replace(".svg", "")}"`)
-                        .replace(' xmlns="http://www.w3.org/2000/svg" ', ' ')
-                        .replace(/ width="(\d+)"/, " ")
-                        .replace(/ height="(\d+)"/, " ")
-                        .replace(/ width="(\d+.\d+)"/, " ")
-                        .replace(/ height="(\d+.\d+)"/, " ")
+                    result.data = result.data.replace('<svg ', `<symbol id="${result.path.replace(".svg", "")}" `)
+                        .replace(' xmlns="http://www.w3.org/2000/svg"', '')
+                        .replace(/ width="(\d+)"/, "")
+                        .replace(/ height="(\d+)"/, "")
+                        .replace(/ width="(\d+.\d+)"/, "")
+                        .replace(/ height="(\d+.\d+)"/, "")
                         .replace("</svg>", "</symbol>");
                     svgOut.push(result.data);
                 } else {
