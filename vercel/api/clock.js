@@ -8,15 +8,13 @@ module.exports = (req, res) => {
     timezone = Math.min(12, timezone);
     timezone = Math.max(-12, timezone);
 
-    let d1 = new Date();
-    let d2 = new Date();
-    d2.setMonth(0);
-    d2.setDate(1);
+    let tznow = new Date(now.valueOf() + timezone * 3600000);
 
-    let day_of_year = Math.ceil((d1 - d2) / (24 * 60 * 60 * 1000));
+    var start = new Date(tznow.getFullYear(), 0, 0);
+    let day_of_year = Math.floor((tznow - start) / (24 * 60 * 60 * 1000));
     let week_number = Math.ceil(day_of_year / 7);
 
-    day_of_week = now.getDay();
+    day_of_week = tznow.getDay();
 
     let outBody = {
         week_number,
@@ -24,7 +22,7 @@ module.exports = (req, res) => {
         unixtime: now.valueOf(),
         day_of_year,
         day_of_week,
-        datetime: new Date(now.valueOf() + timezone * 3600000).toISOString().replace('Z', '').replace('T', ' '),
+        datetime: tznow.toISOString().replace('Z', '').replace('T', ' '),
         time_zone: timezone,
         client_ip: ip,
     };

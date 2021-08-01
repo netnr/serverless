@@ -32,12 +32,6 @@
     },
 
     {
-      "src": "/bed",
-      "dest": "/api/bed.js",
-      "continue": true
-    },
-
-    {
       "src": "/captcha(.*)",
       "dest": "/api/captcha.js",
       "continue": true

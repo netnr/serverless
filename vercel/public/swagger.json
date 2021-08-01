@@ -190,90 +190,6 @@
         }
       }
     },
-    "/bed": {
-      "get": {
-        "tags": [
-          "Bed"
-        ],
-        "summary": "聚合图床(获取存储商列表)",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              }
-            }
-          }
-        }
-      },
-      "post": {
-        "tags": [
-          "Bed"
-        ],
-        "summary": "聚合图床(上传)",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "url": {
-                    "type": "string"
-                  },
-                  "file": {
-                    "type": "string",
-                    "format": "binary"
-                  }
-                }
-              },
-              "encoding": {
-                "url": {
-                  "style": "form"
-                },
-                "file": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
     "/clock": {
       "get": {
         "tags": [
@@ -864,10 +780,6 @@
     {
       "name": "Badge",
       "description": "Badge 徽章"
-    },
-    {
-      "name": "Bed",
-      "description": "Bed 图床"
     },
     {
       "name": "Common",
