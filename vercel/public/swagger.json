@@ -142,54 +142,6 @@
         }
       }
     },
-    "/badge/nuget/v/{package}.svg": {
-      "get": {
-        "tags": [
-          "Badge"
-        ],
-        "summary": "获取 NuGet 发布包的最新版本",
-        "parameters": [
-          {
-            "name": "package",
-            "in": "path",
-            "description": "发布包名",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
-    "/badge/npm/v/{package}.svg": {
-      "get": {
-        "tags": [
-          "Badge"
-        ],
-        "summary": "获取 NPM 发布包的最新版本",
-        "parameters": [
-          {
-            "name": "package",
-            "in": "path",
-            "description": "发布包名",
-            "required": true,
-            "schema": {
-              "type": "string"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success"
-          }
-        }
-      }
-    },
     "/clock": {
       "get": {
         "tags": [
@@ -776,10 +728,6 @@
     {
       "name": "AI",
       "description": "AI 人工智能"
-    },
-    {
-      "name": "Badge",
-      "description": "Badge 徽章"
     },
     {
       "name": "Common",
