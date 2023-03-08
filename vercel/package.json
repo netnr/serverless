@@ -6,12 +6,12 @@
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
-    "baidu-aip-sdk": "^4.15.4",
-    "multiparty": "^4.2.2",
-    "nodejieba": "^2.5.2",
+    "baidu-aip-sdk": "^4.16.10",
+    "multiparty": "^4.2.3",
+    "nodejieba": "^2.6.0",
     "svg-captcha": "^1.4.0",
     "svgo": "2.5.0",
-    "uuid": "^8.3.2"
+    "uuid": "^9.0.0"
   },
   "repository": {
     "type": "git",
