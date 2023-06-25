@@ -1,3 +1,5 @@
+const fetch = require("node-fetch");
+
 module.exports = async (req, res) => {
 
     let roomId = parseInt(req.url.split('/')[2]);
