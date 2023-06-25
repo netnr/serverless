@@ -6,7 +6,7 @@
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
-    "baidu-aip-sdk": "^4.16.10",
+    "baidu-aip-sdk": "^4.16.12",
     "multiparty": "^4.2.3",
     "nodejieba": "^2.6.0",
     "svg-captcha": "^1.4.0",

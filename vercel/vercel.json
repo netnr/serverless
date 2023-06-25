@@ -44,6 +44,12 @@
     },
 
     {
+      "src": "/douyu",
+      "dest": "/api/douyu.js",
+      "continue": true
+    },
+
+    {
       "src": "/ip",
       "dest": "/api/ip.js",
       "continue": true

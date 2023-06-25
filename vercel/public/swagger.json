@@ -214,6 +214,31 @@
         }
       }
     },
+    "/douyu/{roomid}": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "斗鱼房间信息",
+        "parameters": [
+          {
+            "name": "roomid",
+            "in": "path",
+            "description": "房间号",
+            "required": true,
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/ip": {
       "get": {
         "tags": [
