@@ -4,10 +4,10 @@ module.exports = async (req, res) => {
     if (isNaN(roomId)) {
         res.status(404).send('Invalid room id');
     } else {
-        let resp = await fetch(`http://open.douyucdn.cn/api/RoomApi/room/${id}`,
+        let resp = await fetch(`http://open.douyucdn.cn/api/RoomApi/room/${roomId}`,
             {
                 headers: {
-                    Referer: `https://www.douyu.com/${id}`,
+                    Referer: `https://www.douyu.com/${roomId}`,
                 },
             });
         let json = await resp.json();

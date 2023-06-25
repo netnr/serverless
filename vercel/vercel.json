@@ -44,7 +44,7 @@
     },
 
     {
-      "src": "/douyu",
+      "src": "/douyu(.*)",
       "dest": "/api/douyu.js",
       "continue": true
     },
