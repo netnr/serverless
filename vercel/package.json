@@ -6,13 +6,11 @@
   "author": "netnr",
   "license": "MIT",
   "dependencies": {
+    "@node-rs/jieba": "^1.7.0",
     "baidu-aip-sdk": "^4.16.12",
     "multiparty": "^4.2.3",
     "node-fetch": "^2.6.11",
-    "nodejieba": "^2.6.0",
-    "svg-captcha": "^1.4.0",
-    "svgo": "2.5.0",
-    "uuid": "^9.0.0"
+    "svgo": "2.5.0"
   },
   "repository": {
     "type": "git",

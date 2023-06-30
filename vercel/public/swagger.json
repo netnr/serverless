@@ -84,30 +84,26 @@
         "tags": [
           "AI"
         ],
-        "summary": "内容分词解析(nodejieba 组件)",
+        "summary": "内容分词解析(结巴)",
         "requestBody": {
           "content": {
             "application/x-www-form-urlencoded": {
               "schema": {
                 "type": "object",
                 "properties": {
-                  "lang": {
-                    "type": "string"
-                  },
                   "ctype": {
                     "type": "integer",
-                    "format": "int32"
+                    "format": "int32",
+                    "description": "默认分词 1为提取关键词"
                   },
                   "content": {
                     "type": "string",
+                    "description": "分析内容",
                     "default": "结过婚的和尚未结过婚的"
                   }
                 }
               },
               "encoding": {
-                "lang": {
-                  "style": "form"
-                },
                 "ctype": {
                   "style": "form"
                 },
@@ -120,24 +116,7 @@
         },
         "responses": {
           "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              }
-            }
+            "description": "Success"
           }
         }
       }
@@ -269,6 +248,30 @@
         }
       }
     },
+    "/link/{url}": {
+      "get": {
+        "tags": [
+          "Common"
+        ],
+        "summary": "链接状态检测（死链）",
+        "parameters": [
+          {
+            "name": "url",
+            "in": "path",
+            "description": "链接",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    },
     "/svg": {
       "get": {
         "tags": [
@@ -302,375 +305,6 @@
         "responses": {
           "200": {
             "description": "Success"
-          }
-        }
-      }
-    },
-    "/svgo": {
-      "post": {
-        "tags": [
-          "Common"
-        ],
-        "summary": "svg优化",
-        "requestBody": {
-          "content": {
-            "multipart/form-data": {
-              "schema": {
-                "type": "object",
-                "properties": {
-                  "svgFile": {
-                    "type": "array",
-                    "items": {
-                      "type": "string",
-                      "format": "binary"
-                    }
-                  },
-                  "svgJson": {
-                    "type": "string"
-                  },
-                  "merge": {
-                    "type": "integer",
-                    "format": "int32",
-                    "default": 0
-                  }
-                }
-              },
-              "encoding": {
-                "svgFile": {
-                  "style": "form"
-                },
-                "svgJson": {
-                  "style": "form"
-                },
-                "merge": {
-                  "style": "form"
-                }
-              }
-            }
-          }
-        },
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/PublicResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/captcha": {
-      "get": {
-        "tags": [
-          "Common"
-        ],
-        "summary": "生成SVG验证码,默认返回一条",
-        "parameters": [
-          {
-            "name": "size",
-            "in": "query",
-            "description": "验证码长度，默认4位",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "ignoreChars",
-            "in": "query",
-            "description": "验证码字符中排除，如：0o1i",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "noise",
-            "in": "query",
-            "description": "干扰线条的数量，默认1",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "color",
-            "in": "query",
-            "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "background",
-            "in": "query",
-            "description": "验证码图片背景颜色",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "width",
-            "in": "query",
-            "description": "验证码宽，默认150",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "height",
-            "in": "query",
-            "description": "验证码高，默认50",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "fontSize",
-            "in": "query",
-            "description": "验证码字体大小",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "$ref": "#/components/schemas/CaptchaResult"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CaptchaResult"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "$ref": "#/components/schemas/CaptchaResult"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/captcha/{count}": {
-      "get": {
-        "tags": [
-          "Common"
-        ],
-        "summary": "生成SVG验证码,默认返回一条",
-        "parameters": [
-          {
-            "name": "count",
-            "in": "path",
-            "description": "自定义条数（限制1-99，1条为 Object，多条为 Array）",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "size",
-            "in": "query",
-            "description": "验证码长度，默认4位",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "ignoreChars",
-            "in": "query",
-            "description": "验证码字符中排除，如：0o1i",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "noise",
-            "in": "query",
-            "description": "干扰线条的数量，默认1",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "color",
-            "in": "query",
-            "description": "验证码的字符是否有颜色，默认没有，如果设定了背景，则默认有",
-            "schema": {
-              "type": "boolean"
-            }
-          },
-          {
-            "name": "background",
-            "in": "query",
-            "description": "验证码图片背景颜色",
-            "schema": {
-              "type": "string"
-            }
-          },
-          {
-            "name": "width",
-            "in": "query",
-            "description": "验证码宽，默认150",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "height",
-            "in": "query",
-            "description": "验证码高，默认50",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          },
-          {
-            "name": "fontSize",
-            "in": "query",
-            "description": "验证码字体大小",
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CaptchaResult"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CaptchaResult"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "$ref": "#/components/schemas/CaptchaResult"
-                  }
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/uuid": {
-      "get": {
-        "tags": [
-          "Common"
-        ],
-        "summary": "生成UUID,默认返回一条",
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "string"
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "string"
-                }
-              }
-            }
-          }
-        }
-      }
-    },
-    "/uuid/{count}": {
-      "get": {
-        "tags": [
-          "Common"
-        ],
-        "summary": "生成UUID,默认返回一条",
-        "parameters": [
-          {
-            "name": "count",
-            "in": "path",
-            "description": "自定义条数（限制1-99，1条为字符串，多条为数组JSON）",
-            "required": true,
-            "schema": {
-              "type": "integer",
-              "format": "int32"
-            }
-          }
-        ],
-        "responses": {
-          "200": {
-            "description": "Success",
-            "content": {
-              "text/plain": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "application/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              },
-              "text/json": {
-                "schema": {
-                  "type": "array",
-                  "items": {
-                    "type": "string"
-                  }
-                }
-              }
-            }
           }
         }
       }

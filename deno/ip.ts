@@ -1,11 +1,11 @@
 /**
  * Author: netnr
- * Date: 2023-03
+ * Date: 2023-06
  *
  * deno run --allow-net --watch ip.ts
  */
 
-import { serve } from "https://deno.land/std@0.178.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
 
 serve(handler, { port: 713 });
 
