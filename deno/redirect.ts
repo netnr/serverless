@@ -1,18 +1,17 @@
 /**
  * Author: netnr
- * Date: 2023-06
+ * Date: 2023-07
  *
  * deno run --allow-net --watch redirect.ts
  */
 
-import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
 serve(handler, { port: 713 });
 
 async function handler(req: Request): Promise<Response> {
   const urlMap = {
-    "guff.ltd": "https://www.netnr.com/guff/discover",
-    "status.zme.ink": "https://stats.uptimerobot.com/koD1PsO4AG",
+    "guff.ltd": "https://www.netnr.com/guff/discover"
   };
 
   let url = urlMap[req.headers.get("host")];

@@ -1,11 +1,11 @@
 /**
  * Author: netnr
- * Date: 2023-06
+ * Date: 2023-07
  *
  * deno run --allow-net --watch ip.ts
  */
 
-import { serve } from "https://deno.land/std@0.192.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
 
 serve(handler, { port: 713 });
 
@@ -69,6 +69,7 @@ async function handler(req: Request, connInfo: ConnInfo): Promise<Response> {
         }
 
         .nr-wraper code {
+            color: orange;
             word-wrap: break-word;
         }
     </style>
@@ -97,7 +98,7 @@ async function handler(req: Request, connInfo: ConnInfo): Promise<Response> {
             domIpv.innerHTML = result.hostname;
         } catch (ex) {
             domIpv.innerHTML = 'Does not support IPv${isNotIPv}';
-            domIpv.style.color = 'orange';
+            domIpv.style.color = 'deeppink';
         }
     </script>
 </body>
