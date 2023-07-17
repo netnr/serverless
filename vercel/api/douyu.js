@@ -12,9 +12,11 @@ module.exports = (req, res) => {
         }).then(resp => resp.json()).then(json => {
             if (json.error == 0) {
                 delete json.data.gift;
-                res.json(json.data);
+                // indent output
+                res.setHeader('Content-Type', 'application/json; charset=utf-8');
+                res.send(JSON.stringify(json.data, null, 2));
             } else {
-                res.status(404).json(json);
+                res.status(404).send(json);
             }
         });
     }
