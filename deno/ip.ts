@@ -1,126 +1,234 @@
 /**
  * Author: netnr
- * Date: 2023-07
+ * Date: 2023-07, 2025-07
  *
  * deno run --allow-net --watch ip.ts
  */
 
-import { serve } from "https://deno.land/std@0.194.0/http/server.ts";
+import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
 
-serve(handler, { port: 713 });
+const PORT = 7713;
 
-async function handler(req: Request, connInfo: ConnInfo): Promise<Response> {
-  let body: string;
-  let code = 200;
-  let contentType = "application/json";
+async function handler(req: Request, connInfo: Deno.ServeHandlerInfo): Promise<Response> {
+    let body: string;
+    let code = 200;
+    let contentType = "application/json";
 
-  try {
-    let userAgent = req.headers.get("user-agent");
-    let remoteAddr = connInfo.remoteAddr;
-    let isIPv6 = remoteAddr.hostname.includes(":");
-    let isIPv = isIPv6 ? 6 : 4;
-    let isNotIPv = isIPv6 ? 4 : 6;
-    let ipv4Txt = remoteAddr.hostname;
-    let ipv6Txt = remoteAddr.hostname;
-    if (isIPv6) {
-      ipv4Txt = "Checking...";
-    } else {
-      ipv6Txt = "Checking...";
+    try {
+        const userAgent = req.headers.get("user-agent") || "";
+        const remoteAddr = connInfo.remoteAddr;
+        const isIPv6 = remoteAddr.hostname.includes(":");
+
+        let host = req.headers.get("host")?.toLowerCase();
+        let isHtml = userAgent?.startsWith("curl/") == false && host?.startsWith("ip.");
+
+        if (isHtml) {
+            return createHtmlResponse(remoteAddr.hostname, isIPv6);
+        } else {
+            body = JSON.stringify(connInfo.remoteAddr, null, 2);
+        }
+    } catch (error) {
+        console.error(error);
+
+        body = error;
+        code = 500;
     }
 
-    let host = req.headers.get("host")?.toLowerCase();
-    let isHtml = userAgent?.startsWith("curl/") == false && host?.startsWith("ip.");
-    if (isHtml) {
-      body = `<!-- No commercial use -->
-<!DOCTYPE html>
-<html>
+    return new Response(body, {
+        status: code,
+        headers: {
+            "access-control-allow-origin": "*",
+            "content-type": `${contentType}; charset=UTF-8`,
+        },
+    });
+}
 
+function createHtmlResponse(currentIP: string, isIPv6: boolean): Response {
+    const otherIPType = isIPv6 ? 4 : 6;
+
+    const html = `<!DOCTYPE html>
+<html lang="en-US">
 <head>
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta charset="utf-8" />
-    
-    <link rel='shortcut icon' href='https://zme.ink/favicon.ico' type='image/x-icon' />
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>IP Query</title>
-
+    <link rel="icon" href="https://zme.ink/favicon.ico">
     <style>
-        html,
+        * { box-sizing: border-box; margin: 0; padding: 0; }
+        
         body {
-            margin: 2em 0;
-            padding: 0 1em;
-            color: #adbac7;
-            box-sizing: border-box;
-            background-color: #22272e;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #0d1117;
+            color: #c9d1d9;
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 20px;
         }
-
-        .text-center {
-            text-align: center
+        
+        .container {
+            max-width: 500px;
+            width: 100%;
+            background: #161b22;
+            border: 1px solid #30363d;
+            border-radius: 12px;
+            padding: 32px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.4);
         }
-
-        .nr-wraper {
-            margin: auto;
-            max-width: 24em;
-            border-top: 1px solid #adbac7;
+        
+        h1 {
+            text-align: center;
+            margin-bottom: 32px;
+            color: #58a6ff;
+            font-size: 28px;
+            font-weight: 600;
         }
-
-        .nr-wraper b {
-            margin-right: 1em;
-            user-select: none;
+        
+        .ip-section {
+            margin-bottom: 24px;
+            padding: 20px;
+            background: #21262d;
+            border: 1px solid #30363d;
+            border-radius: 8px;
         }
-
-        .nr-wraper code {
-            color: orange;
-            word-wrap: break-word;
+        
+        .ip-label {
+            font-size: 14px;
+            color: #8b949e;
+            margin-bottom: 8px;
+            font-weight: 500;
+        }
+        
+        .ip-value {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            font-size: 18px;
+            color: #7dd3fc;
+            word-break: break-all;
+            padding: 8px 12px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 6px;
+        }
+        
+        .current-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            margin-top: 8px;
+            font-size: 12px;
+            color: #56d364;
+        }
+        
+        .current-dot {
+            width: 8px;
+            height: 8px;
+            background: #56d364;
+            border-radius: 50%;
+        }
+        
+        .loading {
+            color: #f85149;
+            font-style: italic;
+        }
+        
+        .not-supported {
+            color: #f85149;
+        }
+        
+        .commands {
+            margin-top: 32px;
+            padding: 20px;
+            background: #0d1117;
+            border: 1px solid #30363d;
+            border-radius: 8px;
+        }
+        
+        .commands h3 {
+            color: #f0f6fc;
+            margin-bottom: 16px;
+            font-size: 16px;
+        }
+        
+        .command {
+            font-family: 'SF Mono', Monaco, 'Cascadia Code', monospace;
+            background: #21262d;
+            padding: 8px 12px;
+            margin: 8px 0;
+            border-radius: 4px;
+            font-size: 14px;
+            color: #7dd3fc;
+        }
+        
+        @media (max-width: 600px) {
+            .container { padding: 24px 20px; }
+            h1 { font-size: 24px; }
+            .ip-value { font-size: 16px; }
         }
     </style>
 </head>
-
 <body>
-    <h2 class="text-center">IP Query</h2>
-    <div class="nr-wraper">
-        <h4><b>IPv4:</b><code class="nr-ipv4">${ipv4Txt}</code></h4>
-        <h4><b>IPv6:</b><code class="nr-ipv6">${ipv6Txt}</code></h4>
-        <h4>Currently accessed using IPv${isIPv}</h4>
-        <br/>
-        <code>
-            <p>curl 4.zme.ink -L</p>
-            <p>curl 6.zme.ink -L</p>
-            <p>curl ip.zme.ink -L</p>
-        </code>
-    </div>
+    <div class="container">
+        <h1>IP Query</h1>
 
-    <script type="module">
-        let url = 'https://${isNotIPv}.zme.ink';
-        let domIpv = document.querySelector('.nr-ipv${isNotIPv}');
-        try {
-            let resp = await fetch(url);
-            let result = await resp.json();
-            domIpv.innerHTML = result.hostname;
-        } catch (ex) {
-            domIpv.innerHTML = 'Does not support IPv${isNotIPv}';
-            domIpv.style.color = 'deeppink';
+        <div class="ip-section">
+            <div class="ip-label">IPv4 Address</div>
+            <div class="ip-value" id="ipv4">${isIPv6 ? 'Detecting...' : currentIP}</div>
+            ${!isIPv6 ? '<div class="current-indicator"><div class="current-dot"></div>Current Access</div>' : ''}
+        </div>
+        
+        <div class="ip-section">
+            <div class="ip-label">IPv6 Address</div>
+            <div class="ip-value" id="ipv6">${isIPv6 ? currentIP : 'Detecting...'}</div>
+            ${isIPv6 ? '<div class="current-indicator"><div class="current-dot"></div>Current Access</div>' : ''}
+        </div>
+        
+        <div class="commands">
+            <h3>CLI</h3>
+            <div class="command">curl https://4.zme.ink</div>
+            <div class="command">curl https://6.zme.ink</div>
+            <div class="command">curl https://ip.zme.ink</div>
+        </div>
+    </div>
+    
+    <script>
+        async function checkOtherIP() {
+            const otherType = ${otherIPType};
+            const elementId = otherType === 4 ? 'ipv4' : 'ipv6';
+            const element = document.getElementById(elementId);
+            
+            try {
+                const response = await fetch(\`https://\${otherType}.zme.ink\`, {
+                    signal: AbortSignal.timeout(5000)
+                });
+                
+                if (!response.ok) throw new Error('Network error');
+                
+                const data = await response.json();
+                element.textContent = data.ip || 'Failed to retrieve';
+                element.classList.remove('loading');
+            } catch (error) {
+                element.textContent = \`IPv\${otherType} not supported\`;
+                element.classList.add('not-supported');
+                element.classList.remove('loading');
+            }
         }
+        
+        checkOtherIP();
     </script>
 </body>
+</html>`;
 
-</html>
-      `;
-
-      contentType = "text/html";
-    } else {
-      body = JSON.stringify(connInfo.remoteAddr, null, 2);
-    }
-  } catch (error) {
-    console.error(error);
-    body = error;
-    code = 500;
-  }
-
-  return new Response(body, {
-    status: code,
-    headers: {
-      "access-control-allow-origin": "*",
-      "content-type": `${contentType}; charset=UTF-8`,
-    },
-  });
+    return new Response(html, {
+        headers: {
+            "content-type": "text/html; charset=UTF-8",
+            "access-control-allow-origin": "*",
+        },
+    });
 }
+
+// 启动服务器
+serve(handler, { port: PORT });
+console.debug(`🚀 IP Query: http://localhost:${PORT}`);
