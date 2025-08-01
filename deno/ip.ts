@@ -1,52 +1,48 @@
 /**
  * Author: netnr
- * Date: 2023-07, 2025-07
- *
- * deno run --allow-net --watch ip.ts
+ * Date: 2023-07, 2025-08
  */
 
-import { serve } from "https://deno.land/std@0.224.0/http/server.ts";
-
-const PORT = 7713;
+Deno.serve(handler);
 
 async function handler(req: Request, connInfo: Deno.ServeHandlerInfo): Promise<Response> {
-    let body: string;
-    let code = 200;
-    let contentType = "application/json";
+  let body: string;
+  let code = 200;
+  let contentType = "application/json";
 
-    try {
-        const userAgent = req.headers.get("user-agent") || "";
-        const remoteAddr = connInfo.remoteAddr;
-        const isIPv6 = remoteAddr.hostname.includes(":");
+  try {
+    const userAgent = req.headers.get("user-agent") || "";
+    const remoteAddr = connInfo.remoteAddr;
+    const isIPv6 = remoteAddr.hostname.includes(":");
 
-        let host = req.headers.get("host")?.toLowerCase();
-        let isHtml = userAgent?.startsWith("curl/") == false && host?.startsWith("ip.");
+    let host = req.headers.get("host")?.toLowerCase();
+    let isHtml = userAgent?.startsWith("curl/") == false && host?.startsWith("ip.");
 
-        if (isHtml) {
-            return createHtmlResponse(remoteAddr.hostname, isIPv6);
-        } else {
-            body = JSON.stringify(connInfo.remoteAddr, null, 2);
-        }
-    } catch (error) {
-        console.error(error);
-
-        body = error;
-        code = 500;
+    if (isHtml) {
+      return createHtmlResponse(remoteAddr.hostname, isIPv6);
+    } else {
+      body = JSON.stringify(connInfo.remoteAddr, null, 2);
     }
+  } catch (error) {
+    console.error(error);
 
-    return new Response(body, {
-        status: code,
-        headers: {
-            "access-control-allow-origin": "*",
-            "content-type": `${contentType}; charset=UTF-8`,
-        },
-    });
+    body = error;
+    code = 500;
+  }
+
+  return new Response(body, {
+    status: code,
+    headers: {
+      "access-control-allow-origin": "*",
+      "content-type": `${contentType}; charset=UTF-8`,
+    },
+  });
 }
 
 function createHtmlResponse(currentIP: string, isIPv6: boolean): Response {
-    const otherIPType = isIPv6 ? 4 : 6;
+  const otherIPType = isIPv6 ? 4 : 6;
 
-    const html = `<!DOCTYPE html>
+  const html = `<!DOCTYPE html>
 <html lang="en-US">
 <head>
     <meta charset="UTF-8">
@@ -221,14 +217,10 @@ function createHtmlResponse(currentIP: string, isIPv6: boolean): Response {
 </body>
 </html>`;
 
-    return new Response(html, {
-        headers: {
-            "content-type": "text/html; charset=UTF-8",
-            "access-control-allow-origin": "*",
-        },
-    });
+  return new Response(html, {
+    headers: {
+      "content-type": "text/html; charset=UTF-8",
+      "access-control-allow-origin": "*",
+    },
+  });
 }
-
-// 启动服务器
-serve(handler, { port: PORT });
-console.debug(`🚀 IP Query: http://localhost:${PORT}`);
