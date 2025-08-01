@@ -70,7 +70,7 @@ function createHtmlResponse(currentIP: string, isIPv6: boolean): Response {
         }
         
         .container {
-            max-width: 500px;
+            max-width: 550px;
             width: 100%;
             background: #161b22;
             border: 1px solid #30363d;
@@ -207,7 +207,7 @@ function createHtmlResponse(currentIP: string, isIPv6: boolean): Response {
                 if (!response.ok) throw new Error('Network error');
                 
                 const data = await response.json();
-                element.textContent = data.ip || 'Failed to retrieve';
+                element.textContent = data.hostname || 'Failed to retrieve';
                 element.classList.remove('loading');
             } catch (error) {
                 element.textContent = \`IPv\${otherType} not supported\`;
